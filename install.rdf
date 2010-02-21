@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+
+<RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
+
+	<Description about="urn:mozilla:install-manifest">
+
+		<em:id>{CCEA9629-894C-4eef-9F40-8301F3146527}</em:id>
+		<em:name>RndPhrase</em:name>
+		<em:version>0.1</em:version>
+		<em:description>Secure unique per domain passwords.</em:description>
+		<em:creator>Johan Brinch</em:creator>
+		<em:homepageURL>http://</em:homepageURL>
+		<em:aboutURL>chrome://rndphrase/content/about.xul</em:aboutURL>
+		<em:file>
+			<Description about="urn:mozilla:extension:file:rndphrase.jar">
+				<em:package>content/rndphrase/</em:package>
+				<em:skin>skin/classic/rndphrase/</em:skin>
+			</Description>
+		</em:file>
+
+		<em:targetApplication>
+			<Description>
+				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
+				<em:minVersion>0.7</em:minVersion>
+				<em:maxVersion>9.9</em:maxVersion>
+			</Description>
+		</em:targetApplication>
+
+		<!-- Flock web 2.0 AKA TEH INTARWEB IS SERIOUS BUSINESS-->
+		<em:targetApplication>
+		  <Description>
+		    <em:id>{a463f10c-3994-11da-9945-000d60ca027b}</em:id>
+		<!-- This baby will never expire -->
+		    <em:maxVersion>9999.0+</em:maxVersion>
+		    <em:minVersion>1.0+</em:minVersion>
+		  </Description>
+		</em:targetApplication>
+
+	</Description>
+
+</RDF>

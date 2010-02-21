@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
+<overlay id="rndphraseOverlay"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns:nc="http://home.netscape.com/NC-rdf#"
+  xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script type="application/x-javascript">
+<![CDATA[
+
+
+
+        // modification rules
+        var rndphrase_mods = [
+          [/absalon\.ku/, function(s){ return s+'A.'; }] // Add a capital 'A' to absalon.ku site passwords
+        ];
+        // personlized seed
+        var seed = '';
+
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+/*  SHA-256 implementation in JavaScript (c) Chris Veness 2005-2009                               */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+function sha256Hash(msg) {
+    var K = [0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+             0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+             0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+             0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+             0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+             0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+             0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+             0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2];
+    var H = [0x6a09e667, 0xbb67ae85, 0x3c6ef372, 0xa54ff53a, 0x510e527f, 0x9b05688c, 0x1f83d9ab, 0x5be0cd19];
+    msg += String.fromCharCode(0x80);
+    var l = msg.length/4 + 2;
+    var N = Math.ceil(l/16);
+    var M = range(N).map(function(e,i){return (range(16).map(function(f,j){
+                            return (msg.charCodeAt(i*64+j*4)  <<24) | (msg.charCodeAt(i*64+j*4+1)<<16) |
+                                   (msg.charCodeAt(i*64+j*4+2)<< 8) | (msg.charCodeAt(i*64+j*4+3)); }));});
+    M[N-1][14] = ((msg.length-1)*8) / Math.pow(2, 32);
+    M[N-1][14] = Math.floor(M[N-1][14]);
+    M[N-1][15] = ((msg.length-1)*8) & 0xffffffff;
+    var W = new Array(64); var a, b, c, d, e, f, g, h, t;
+    for (i=0; i<N; i++) {
+        for (t=0;  t<16; t++) W[t] = M[i][t];
+        for (t=16; t<64; t++) W[t] = (sigma1(W[t-2]) + W[t-7] + sigma0(W[t-15]) + W[t-16]) & 0xffffffff;
+        [a, b, c, d, e, f, g, h] = H;
+        for (t=0; t<64; t++) {
+            var T1 = h + Sigma1(e) + Ch(e, f, g) + K[t] + W[t];
+            var T2 = Sigma0(a) + Maj(a, b, c);
+            [h, g, f, e] = [g, f, e, ( d + T1) & 0xffffffff];
+            [d, c, b, a] = [c, b, a, (T1 + T2) & 0xffffffff];
+        }
+        H = [(H[0]+a) & 0xffffffff, (H[1]+b) & 0xffffffff, (H[2]+c) & 0xffffffff,
+             (H[3]+d) & 0xffffffff, (H[4]+e) & 0xffffffff, (H[5]+f) & 0xffffffff,
+             (H[6]+g) & 0xffffffff, (H[7]+h) & 0xffffffff];
+    }
+    return H[0].toHexStr() + H[1].toHexStr() + H[2].toHexStr() + H[3].toHexStr() +
+        H[4].toHexStr() + H[5].toHexStr() + H[6].toHexStr() + H[7].toHexStr();
+}
+function ROTR(n, x) { return (x >>> n) | (x << (32-n)); }
+function Sigma0(x) { return ROTR(2,  x) ^ ROTR(13, x) ^ ROTR(22, x); }
+function Sigma1(x) { return ROTR(6,  x) ^ ROTR(11, x) ^ ROTR(25, x); }
+function sigma0(x) { return ROTR(7,  x) ^ ROTR(18, x) ^ (x>>>3);  }
+function sigma1(x) { return ROTR(17, x) ^ ROTR(19, x) ^ (x>>>10); }
+function Ch(x, y, z)  { return (x & y) ^ (~x & z); }
+function Maj(x, y, z) { return (x & y) ^ (x & z) ^ (y & z); }
+function range(N) {
+    var a = new Array();
+    for (var i = 0; i < N; i++) { a[i] = i; } return a;
+}
+Number.prototype.toHexStr = function() {
+    var s="", v;
+    for (var i=7; i>=0; i--) { v = (this>>>(i*4)) & 0xf; s += v.toString(16); }
+    return s;
+};
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
+
+
+        function rndphrase_prng(seed, passwd, host) {
+          var key = passwd + "::" + seed + "::" + host.toLowerCase();
+          return sha256Hash(key);
+        }
+
+        function rndphrase_selftest() {
+          // test SHA implementation
+          var sha_tests =
+          new Array("",
+                    "foobar",
+                    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855");
+          var sha_hashs = new Array(
+                    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                    "c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2",
+                    "cd372fb85148700fa88095e3492d3f9f5beb43e555e5ff26d95f5a6adc36f8e6");
+          while(sha_tests.length > 0) {
+            if(sha256Hash(sha_tests.pop()) != sha_hashs.pop())
+              return false;
+          }
+          // make sure we don't break passwords
+          var prng_tests =
+          new Array(["seed","passwd","example.com"],
+                    ["seed","passwd","EXAMPLE.COM"],
+                    ["","","example.com"]);
+          var prng_hashs = new Array(
+                  "808adad68b1461b85a1177d9eb6175f182c7e79f2a3510ad12f4576280a7f103",
+                  "808adad68b1461b85a1177d9eb6175f182c7e79f2a3510ad12f4576280a7f103",
+                  "9701d83d15bf119b8c9ea3388606406b64a410010ab82b16146567a8d26b517a");
+          while(prng_tests.length > 0) {
+            var test = prng_tests.pop();
+            var seed = test[0], passwd = test[1], host = test[2];
+            if(rndphrase_prng(seed, passwd, host) != prng_hashs.pop()) {
+              return false;
+            }
+          }
+          return true;
+        }
+
+        function to_array(iter) {
+          var arr = new Array();
+          for(var i = 0; i < iter.length; i++) {
+            arr[i] = iter[i];
+          }
+          return arr;
+        }
+
+        function is_password_field(f) {
+          return f.type != undefined && f.type.toLowerCase() == 'password';
+        }
+        function has_value(f) {
+          return f.value != undefined && f.value.length > 0;
+        }
+
+        function rndphrase_form_update(seed,host,mods,doc) {
+          var mod = mods.length ? mods[0][1] : function(s) { return s; };
+          return function(f) {
+            dump("update form: " + f + "\n");
+            var onsubmit = f.onSubmit;
+            var _set_passwd = function(p) {
+              dump("Submit!");
+              if(p.value[0] == '@') {
+                p.value = mod((rndphrase_prng(seed, p.value.substring(1), host)).substring(0,16));
+              } };
+            var _onsubmit = function() {
+                to_array(doc.getElementsByTagName("INPUT")).filter(is_password_field).filter(has_value).map(_set_passwd);
+                if(onsubmit) return onsubmit();
+                return true; };
+            f.addEventListener('submit', _onsubmit, false);
+          };
+        }
+
+
+        function rndphrase_host (host) {
+            if(!rndphrase_selftest()) throw "Selftest failed!";
+            var host = host.substring(host.search(/[^\.]+\.[^\./]+$/));
+            var mods = rndphrase_mods.filter(function(el) { return host.search(el[0]) != -1; } );
+            return function(doc) {
+                dump("try to update forms\n");
+                to_array(doc.getElementsByTagName("FORM")).map(rndphrase_form_update(seed,host,mods,doc));
+            };
+        }
+
+        function rndPhrase() {
+            window._content.addEventListener('load', rndphrase_buffer, true);
+        }
+
+
+        window.addEventListener("load", function() { rndPhraseExt.init(); }, false);
+
+        var rndPhraseExt = {
+            init: function() {
+                var appcontent = document.getElementById("appcontent");   // browser
+                if(appcontent)
+                    appcontent.addEventListener("DOMContentLoaded", rndPhraseExt.onPageLoad, true);
+                var messagepane = document.getElementById("messagepane"); // mail
+                if(messagepane)
+                    messagepane.addEventListener("load", function () { rndPhraseExt.onPageLoad(); }, true);
+            },
+
+        onPageLoad: function(aEvent) {
+                window.dump("page load!\n");
+                var doc = aEvent.originalTarget;
+                window.dump("has document: " + doc + "\n");
+                var fn  = rndphrase_host(doc.location.host);
+                window.dump("has fn: "+fn+"\n");
+                fn(doc);
+            }
+        }
+
+
+   ]]>
+   </script>
+
+</overlay>
