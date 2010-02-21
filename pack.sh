@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/usr/bin/env sh
 
 cd chrome
 zip -r rndphrase.jar content skin
