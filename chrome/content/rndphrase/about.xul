@@ -29,7 +29,7 @@
         onclick="window.open('mailto:brinchj@gmail.com'); window.close();"/>
 </vbox>
 <spring flex="1"/>
-<image src="chrome://rndphrase/skin/rndphrase.png"/>
+<image src="chrome://rndphrase/skin/rndphrase_s.gif"/>
 </groupbox>
 
   <hbox>
