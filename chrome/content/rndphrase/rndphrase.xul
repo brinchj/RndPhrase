@@ -38,6 +38,7 @@ function CubeHash_Transform(state)
         for (i = 0;i < 16;++i) y[i ^ 1] = state[i + 16];
         for (i = 0;i < 16;++i) state[i + 16] = y[i];
     }
+    for(i = 0; i < 32; i++) y[i] = 0;
 }
 
 function CubeHash_Hash(data)
