@@ -1,0 +1,22 @@
+<html>
+  <head>
+<title>Dynamic Test</title>
+
+<script>
+function add_form() {
+  document.getElementById("layer").innerHTML +=
+    "<form method='GET'><input name='passwd' type='password' /></form>";
+}
+</script>
+
+</head>
+<body>
+<h1>Dynamic Test</h1>
+
+<a onclick="add_form()">Add Form</a>
+
+<div id="layer"></div>
+
+
+</body>
+</html>
