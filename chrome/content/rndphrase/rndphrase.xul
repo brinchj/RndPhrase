@@ -158,14 +158,19 @@ function CubeHash_SelfText() {
                 return function(aEvent) {
                     var I = aEvent.target;
                     if(is_password_field(I)) {
-                        var _onblur = function() {
-                            if(has_value(I) && I.value[0] == '@') {
-                                I.value = mods((rndphrase_prng(seed, I.value.substring(1), host)));
-                            }
-                            return true;
-                        };
                         if(I._rndphrase != true) {
-                            I.addEventListener('blur', _onblur, false);
+                            var _update = function() {
+                                if(has_value(I) && I.value[0] == '@') {
+                                    I.value = mods((rndphrase_prng(seed, I.value.substring(1), host)));
+                                }
+                            }
+                            I.addEventListener('blur', _update, false);
+                            var _keydown = function(e) {
+                                if(e.which == 13) { // enter
+                                    _update();
+                                }
+                            }
+                            I.addEventListener('keydown', _keydown, false);
                             I._rndphrase = true;
                         }
                     }
