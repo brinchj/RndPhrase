@@ -116,13 +116,6 @@ function CubeHash_SelfText() {
           return true;
         }
 
-        function to_array(iter) {
-          var arr = new Array();
-          for(var i = 0; i < iter.length; i++) {
-            arr[i] = iter[i];
-          }
-          return arr;
-        }
 
         function is_password_field(f) {
           return f.type != undefined && f.type.toLowerCase() == 'password';
@@ -131,52 +124,57 @@ function CubeHash_SelfText() {
           return f.value != undefined && f.value.length > 0;
         }
 
-        function rndphrase_form_update(seed,host,mods,doc) {
-          var mod = mods.length ? mods[0][1] : function(s) { return s; };
-          return function(f) {
-            var onsubmit = f.onSubmit;
-            var _set_passwd = function(p) {
-              if(p.value[0] == '@') {
-                p.value = mod((rndphrase_prng(seed, p.value.substring(1), host)).substring(0,16));
-              } };
-            var _onsubmit = function() {
-                to_array(doc.getElementsByTagName("INPUT")).filter(is_password_field).filter(has_value).map(_set_passwd);
-                if(onsubmit) return onsubmit();
-                return true; };
-            f.addEventListener('submit', _onsubmit, false);
-          };
+        function get_host(host) {
+            var idx = host.substring(host.search(/[^\.]+\.[^\./]+$/));
+            if(idx == -1) {
+                throw "This is no hostname: " + host;
+            }
+            return host.substring(idx);
         }
 
-
-        function rndphrase_host (host) {
-            var host = host.substring(host.search(/[^\.]+\.[^\./]+$/));
+        function get_mods(host) {
             var mods = rndphrase_mods.filter(function(el) { return host.search(el[0]) != -1; } );
-            return function(doc) {
-                to_array(doc.getElementsByTagName("FORM")).map(rndphrase_form_update(seed,host,mods,doc));
-            };
+            return mods.length ? mods[0][1] : function(s) { return s; };
         }
 
         var rndPhraseExt = {
+
             init: function() {
                 if(!rndphrase_selftest()) throw "Selftest failed!";
                 var appcontent = document.getElementById("appcontent");   // browser
                 if(appcontent) {
                     appcontent.addEventListener("DOMContentLoaded", rndPhraseExt.onPageLoad, true);
-                    appcontent.addEventListener("DOMSubtreeModified", rndPhraseExt.onPageLoad, true);
                 }
-                var messagepane = document.getElementById("messagepane"); // mail
-                if(messagepane)
-                    messagepane.addEventListener("load", function () { rndPhraseExt.onPageLoad(); }, true);
             },
 
             onPageLoad: function(aEvent) {
                 var doc = aEvent.originalTarget;
-                var fn  = rndphrase_host(doc.location.host);
-                fn(doc);
+                var host = get_host(doc.location.host);
+                var mods = get_mods(host);
+                doc.addEventListener("keydown", rndPhraseExt.onKeypress(host, mods), true);
+            },
+
+            onKeypress: function(host, mods) {
+                return function(aEvent) {
+                    var I = aEvent.target;
+                    if(is_password_field(I)) {
+                        var _onblur = function() {
+                            if(has_value(I) && I.value[0] == '@') {
+                                I.value = mods((rndphrase_prng(seed, I.value.substring(1), host)));
+                            }
+                            return true;
+                        };
+                        if(I._rndphrase != true) {
+                            I.addEventListener('blur', _onblur, false);
+                            I._rndphrase = true;
+                        }
+                    }
+                };
             }
         }
 
         window.addEventListener("load", function() { rndPhraseExt.init(); }, false);
+
    ]]>
    </script>
 
