@@ -163,20 +163,20 @@ function CubeHash_SelfText() {
                                 if(has_value(I) && I.value[0] == '@') {
                                     I.value = mods((rndphrase_prng(seed, I.value.substring(1), host)));
                                 }
-                            }
+                            };
                             I.addEventListener('blur', _update, false);
                             var _keydown = function(e) {
                                 if(e.which == 13) { // enter
                                     _update();
                                 }
-                            }
+                            };
                             I.addEventListener('keydown', _keydown, false);
                             I._rndphrase = true;
                         }
                     }
                 };
             }
-        }
+        };
 
         window.addEventListener("load", function() { rndPhraseExt.init(); }, false);
 
