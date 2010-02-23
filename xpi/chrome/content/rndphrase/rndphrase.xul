@@ -97,7 +97,7 @@ function CubeHash_SelfText() {
         var Hash = CubeHash_Hash;
 
         function rndphrase_prng(seed, passwd, host) {
-          return Hash(Hash(passwd) + Hash(seed) + Hash(host.toLowerCase())).substring(0,16);
+          return Hash(passwd + Hash(seed + Hash(host.toLowerCase()))).substring(0,16);
         }
 
         function rndphrase_selftest() {
@@ -105,7 +105,7 @@ function CubeHash_SelfText() {
             return false;
           }
           var prng_tests = new Array(["foo", "bar", "example.net"]);
-          var prng_hashs = new Array("5ecf8e8437188b6a");
+          var prng_hashs = new Array("19573c0d2815030e");
           while(prng_tests.length > 0) {
             var test = prng_tests.pop();
             var seed = test[0], passwd = test[1], host = test[2];

@@ -74,7 +74,7 @@ function CubeHash_SelfText() {
 var Hash = CubeHash_Hash;
 
 function rndphrase_prng(rndphrase_seed, passwd, host) {
-    return Hash(Hash(passwd) + Hash(rndphrase_seed) + Hash(host.toLowerCase())).substring(0,16);
+    return Hash(passwd + Hash(rndphrase_seed + Hash(host.toLowerCase()))).substring(0,16);
 }
 
 function rndphrase_selftest() {
@@ -82,11 +82,11 @@ function rndphrase_selftest() {
         return false;
     }
     var prng_tests = new Array(["foo", "bar", "example.net"]);
-    var prng_hashs = new Array("5ecf8e8437188b6a");
+    var prng_hashs = new Array("19573c0d2815030e");
     while(prng_tests.length > 0) {
         var test = prng_tests.pop();
-        var rndphrase_seed = test[0], passwd = test[1], host = test[2];
-        if(rndphrase_prng(rndphrase_seed, passwd, host) != prng_hashs.pop()) {
+        var seed = test[0], passwd = test[1], host = test[2];
+        if(rndphrase_prng(seed, passwd, host) != prng_hashs.pop()) {
             return false;
         }
     }
@@ -117,6 +117,7 @@ function get_mods(host) {
 var rndPhraseExt = {
 
     onPageLoad: function(buffer) {
+        if(!rndphrase_selftest()) throw "Self Test failed!";
         var doc = buffer.document;
         var host = get_host(doc.location.host);
         var mods = get_mods(host);
