@@ -97,7 +97,7 @@ function CubeHash_SelfText() {
         var Hash = CubeHash_Hash;
 
         function rndphrase_prng(seed, passwd, host) {
-          return Hash(passwd + Hash(seed + Hash(host.toLowerCase()))).substring(0,16);
+          return Hash(passwd + Hash(seed + Hash(passwd + host.toLowerCase()))).substring(0,16);
         }
 
         function rndphrase_selftest() {
