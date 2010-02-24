@@ -27,7 +27,7 @@
             },
         };
         window.addEventListener("load", function() { rndPhraseExt.init(); }, false);
-   ]]>
-   </script>
+]]>
+</script>
 
 </overlay>
