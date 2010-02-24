@@ -6,7 +6,7 @@
 
 		<em:id>{CCEA9629-894C-4eef-9F40-8301F3146527}</em:id>
 		<em:name>RndPhrase</em:name>
-		<em:version>0.5.1</em:version>
+		<em:version>0.6</em:version>
 		<em:description>Secure unique per domain passwords.</em:description>
 		<em:creator>Johan Brinch</em:creator>
 		<em:homepageURL>http://</em:homepageURL>
