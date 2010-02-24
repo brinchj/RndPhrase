@@ -1,0 +1,16 @@
+{
+  "content_scripts": [
+    {
+      "js": [
+        "overlay.js"
+      ],
+      "matches": [
+        "http://*/*", "https://*/*", "file:///*/*"
+      ]
+    }
+  ],
+  "name": NAME,
+  "description": DESC,
+  "version": VERSION,
+  "options_page": "options.html"
+}

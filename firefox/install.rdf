@@ -5,11 +5,11 @@
 	<Description about="urn:mozilla:install-manifest">
 
 		<em:id>{CCEA9629-894C-4eef-9F40-8301F3146527}</em:id>
-		<em:name>RndPhrase</em:name>
-		<em:version>0.6</em:version>
-		<em:description>Secure unique per domain passwords.</em:description>
-		<em:creator>Johan Brinch</em:creator>
-		<em:homepageURL>http://</em:homepageURL>
+		<em:name>NAME</em:name>
+		<em:version>VERSION</em:version>
+		<em:description>DESC</em:description>
+		<em:creator>CREATOR</em:creator>
+		<em:homepageURL>HOMEPAGE</em:homepageURL>
 		<em:aboutURL>chrome://rndphrase/content/about.xul</em:aboutURL>
 		<em:file>
 			<Description about="urn:mozilla:extension:file:rndphrase.jar">
