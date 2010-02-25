@@ -32,4 +32,5 @@ To activate the transformation of a password, you need to prefix it with '@'. Fo
 
 Known bugs
 ----------
-        - let me know if you find one.
+Bugs can be added at:
+http://github.com/brinchj/RndPhrase/issues
