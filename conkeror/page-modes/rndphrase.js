@@ -14,3 +14,4 @@ define_page_mode("rndphrase_mode", "RndPhrase",
         remove_hook.call(buffer, "buffer_dom_content_loaded_hook", rndPhraseExt.onPageLoad);
     }
 );
+// enable at all sites: auto_mode_list.push([/.*/, rndphrase_mode]);
