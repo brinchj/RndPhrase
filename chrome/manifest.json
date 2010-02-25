@@ -6,9 +6,13 @@
       ],
       "matches": [
         "http://*/*", "https://*/*", "file:///*/*"
+      ],
+      "permissions": [
+        "http://*/*", "https://*/*", "file:///*/*"
       ]
     }
   ],
+  "background_page" : "background.html",
   "name": NAME,
   "description": DESC,
   "version": VERSION,

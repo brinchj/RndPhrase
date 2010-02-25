@@ -1,8 +1,12 @@
 #include "lib/rndphrase.js"
 
-init();
-function init() {
-    window.alert("patching..");
-    var doc = document;
-    RndPhrase.patch_document(doc.location.host, doc);
-}
+chrome.extension.sendRequest({name: "getPreferences"},
+    function(response)
+    {
+        RndPhrase.seed = response.prefSeed;
+        var doc = document;
+        RndPhrase.patch_document(doc.location.host, doc);
+    });
+
+
+
