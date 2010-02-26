@@ -14,9 +14,9 @@ function _keypress(E) {
 doc.onkeydown = _keypress;
 doc.onkeypress = _keypress;
 doc.onkeyup = _keypress;
-doc.addEventListener("keydown", _keypress, false);
-doc.addEventListener("keypress", _keypress, false);
-doc.addEventListener("keyup", _keypress, false);
+doc.addEventListener("keydown", _keypress, true);
+doc.addEventListener("keypress", _keypress, true);
+doc.addEventListener("keyup", _keypress, true);
 
 function check_value() {
   if(get("passwd") != undefined) {
