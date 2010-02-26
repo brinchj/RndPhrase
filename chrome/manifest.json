@@ -8,7 +8,6 @@
         "http://*/*", "https://*/*", "file:///*/*"
       ],
       "permissions": [
-        "http://*/*", "https://*/*", "file:///*/*"
       ]
     }
   ],
