@@ -16,8 +16,10 @@ HOMEPAGE="http://github.com/brinchj/RndPhrase"
 CONKEROR_BUILD=build/conkeror
 FIREFOX_BUILD=build/firefox
 CHROME_BUILD=build/chrome
+WWW_BUILD=build/www
 
 CHROME=google-chrome
+
 
 CPP=gcc -c -P -E -xc -I. \
 	-D'NAME=${NAME}' -D'DESC=${DESC}' -D'CREATOR=${CREATOR}' \
@@ -67,3 +69,13 @@ chrome: chrome_meta chrome_js.js
   mv ${CHROME_BUILD}/_src.crx ${CHROME_BUILD}/rndphrase.crx && \
   rm -rf ${CHROME_BUILD}/_src && \
 	echo ">> Chrome addon: build/chrome/rndphrase.crm"
+
+
+www_html.html: ${LIB} www/index.html
+	${CPP} www/index.html -o www_html.html
+
+www: www_html.html
+	mkdir -p ${WWW_BUILD} && \
+	cp -r www/* ${WWW_BUILD} && \
+	mv www_html.html ${WWW_BUILD}/index.html && \
+	echo ">> Html version: ${WWW_BUILD}/index.html"
