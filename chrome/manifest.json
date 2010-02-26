@@ -7,8 +7,7 @@
       "matches": [
         "http://*/*", "https://*/*", "file:///*/*"
       ],
-      "permissions": [
-      ]
+      "permissions": []
     }
   ],
   "background_page" : "background.html",
