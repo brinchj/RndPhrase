@@ -1,0 +1,54 @@
+<html>
+  <head>
+<title>Simple Test</title>
+
+<script>
+var doc = document;
+function get(id) {
+  return doc.getElementById(id);
+}
+
+function _keypress(E) {
+  get("keys").innerHTML += ' #' + E.which;
+}
+doc.onkeydown = _keypress;
+doc.onkeypress = _keypress;
+doc.onkeyup = _keypress;
+doc.addEventListener("keydown", _keypress, false);
+doc.addEventListener("keypress", _keypress, false);
+doc.addEventListener("keyup", _keypress, false);
+
+function check_value() {
+  if(get("passwd") != undefined) {
+    get("fvalue").innerHTML = get("passwd").value;
+  }
+  setTimeout("check_value()", 100);
+}
+
+
+</script>
+
+</head>
+<body onload="check_value()">
+<h1>Simple Test</h1>
+
+<form method="GET"><input name="passwd" id="passwd" type="password" /></form>
+
+
+<p>Input field value:
+<div id="fvalue"></div>
+</p>
+
+<p>Hash value:
+<div id="fhash"></div>
+</p>
+
+
+<p>Pressed keys:
+<div id="keys"></div>
+</p>
+
+
+
+</body>
+</html>
