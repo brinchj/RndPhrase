@@ -22,7 +22,7 @@ CHROME=google-chrome
 FIREFOX=firefox
 
 
-CPP=gcc -c -P -E -xc -I. \
+CPP=gcc -c -C -P -E -xc -I. \
 	-D'NAME=${NAME}' -D'DESC=${DESC}' -D'CREATOR=${CREATOR}' \
 	-D'HOMEPAGE=${HOMEPAGE}' -D'VERSION=${VERSION}'
 LIB=Makefile lib/cubehash.js lib/rndphrase.js
@@ -46,7 +46,7 @@ firefox_js.js: ${LIB} firefox/chrome/content/rndphrase/rndphrase.xul
 firefox: firefox_meta firefox_js.js
 	mkdir -p ${FIREFOX_BUILD}/_src && \
 	cp -r firefox/* ${FIREFOX_BUILD}/_src && \
-	mv firefox_meta ${FIREFOX_BUILD}/_src/ && \
+	mv firefox_meta ${FIREFOX_BUILD}/_src/install.rdf && \
 	mv firefox_js.js ${FIREFOX_BUILD}/_src/chrome/content/rndphrase/rndphrase.xul && \
 	cd ${FIREFOX_BUILD}/_src && \
 	./pack.sh && \
