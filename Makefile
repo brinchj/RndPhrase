@@ -19,6 +19,7 @@ CHROME_BUILD=build/chrome
 WWW_BUILD=build/www
 
 CHROME=google-chrome
+FIREFOX=firefox
 
 
 CPP=gcc -c -P -E -xc -I. \
@@ -51,7 +52,11 @@ firefox: firefox_meta firefox_js.js
 	./pack.sh && \
 	mv rndphrase.xpi ../ && \
 	cd .. && rm -rf _src && \
-	echo ">> Firefox addon: ${FIREFOX_BUILD}/rndphrase.xpi"
+	echo ">> Firefox addon: ${FIREFOX_BUILD}/rndphrase.xpi" && \
+	echo ">> Install by running 'make firefox_install'"
+
+firefox_install: firefox
+	${FIREFOX} build/firefox/rndphrase.xpi
 
 
 chrome_meta: ${LIB} chrome/manifest.json
@@ -68,7 +73,11 @@ chrome: chrome_meta chrome_js.js
   ${CHROME} --pack-extension=${CHROME_BUILD}/_src --pack-extension-key=chrome/unofficial_key.pem && \
   mv ${CHROME_BUILD}/_src.crx ${CHROME_BUILD}/rndphrase.crx && \
   rm -rf ${CHROME_BUILD}/_src && \
-	echo ">> Chrome addon: build/chrome/rndphrase.crm"
+	echo ">> Chrome addon: build/chrome/rndphrase.crm" && \
+	echo ">> Install by running 'make chrome_install'"
+
+chrome_install: chrome
+	${CHROME} build/chrome/rndphrase.crx
 
 
 www_html.html: ${LIB} www/index.html
