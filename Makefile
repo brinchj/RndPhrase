@@ -27,6 +27,8 @@ CPP=gcc -c -C -P -E -xc -I. \
 	-D'HOMEPAGE=${HOMEPAGE}' -D'VERSION=${VERSION}'
 LIB=Makefile lib/cubehash.js lib/rndphrase.js
 
+rndphrase_js.js: ${LIB}
+	${CPP} lib/rndphrase.js -o rndphrase_js.js
 
 conkeror_js.js: ${LIB} conkeror/page-modes/rndphrase.js
 	${CPP} conkeror/page-modes/rndphrase.js -o conkeror_js.js
