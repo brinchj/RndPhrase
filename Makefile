@@ -6,7 +6,6 @@ BUILD_SUB=1
 
 VERSION = "$(BUILD_VERSION).$(BUILD_PATCH).$(BUILD_SUB)"
 
-
 NAME="RndPhrase"
 DESC="Auto-generated secure passwords."
 CREATOR="Johan Brinch"
@@ -23,8 +22,11 @@ FIREFOX=firefox
 
 
 CPP=gcc -c -C -P -E -xc -I. \
-	-D'NAME=${NAME}' -D'DESC=${DESC}' -D'CREATOR=${CREATOR}' \
-	-D'HOMEPAGE=${HOMEPAGE}' -D'VERSION=${VERSION}'
+	-D'QUOTE="' -DNAME=${NAME} -DDESC=${DESC} \
+        -DCREATOR=${CREATOR} \
+	-DHOMEPAGE=${HOMEPAGE} -DVERSION=${VERSION}
+
+
 LIB=Makefile lib/cubehash.js lib/rndphrase.js
 
 rndphrase_js.js: ${LIB}
@@ -35,20 +37,20 @@ conkeror_js.js: ${LIB} conkeror/page-modes/rndphrase.js
 
 conkeror: conkeror_js.js
 	mkdir -p ${CONKEROR_BUILD}/page-modes && \
-  mv conkeror_js.js ${CONKEROR_BUILD}/page-modes/rndphrase.js && \
+	mv conkeror_js.js ${CONKEROR_BUILD}/page-modes/rndphrase.js && \
 	echo ">> Conkeror page-mode: ${CONKEROR_BUILD}/page-modes/rndphrase.js"
 
 
 firefox_meta: ${LIB} firefox/install.rdf
-	${CPP} firefox/install.rdf -o firefox_meta
+	${CPP} firefox/install.rdf | grep -v "^$$" > firefox_meta
 
 firefox_js.js: ${LIB} firefox/chrome/content/rndphrase/rndphrase.xul
-	${CPP} firefox/chrome/content/rndphrase/rndphrase.xul -o firefox_js.js
+	${CPP} firefox/chrome/content/rndphrase/rndphrase.xul | grep -v "^$$" > firefox_js.js
 
 firefox: firefox_meta firefox_js.js
 	mkdir -p ${FIREFOX_BUILD}/_src && \
 	cp -r firefox/* ${FIREFOX_BUILD}/_src && \
-	mv firefox_meta ${FIREFOX_BUILD}/_src/install.rdf && \
+        mv firefox_meta ${FIREFOX_BUILD}/_src/install.rdf && \
 	mv firefox_js.js ${FIREFOX_BUILD}/_src/chrome/content/rndphrase/rndphrase.xul && \
 	cd ${FIREFOX_BUILD}/_src && \
 	./pack.sh && \
