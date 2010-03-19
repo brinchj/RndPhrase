@@ -6,7 +6,8 @@ var rndPhraseExt = {
         RndPhrase.patch_document(doc.location.host, doc);
     }
 };
-define_page_mode("rndphrase_mode", "RndPhrase",
+define_page_mode("rndphrase_mode",
+    $display_name = "RndPhrase",
     $enable = function (buffer) {
         do_when("buffer_dom_content_loaded_hook", buffer, rndPhraseExt.onPageLoad);
     },
