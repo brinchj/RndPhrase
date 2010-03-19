@@ -1,11 +1,10 @@
 #include "lib/rndphrase.js"
 
-RndPhrase = com.rndphrase.RndPhrase;
 var rndPhraseExt = {
     onPageLoad: function(buffer) {
-        if(!RndPhrase.self_test()) throw "Self test failed!";
+        if(!rndphrase.RndPhrase.self_test()) throw "Self test failed!";
         var doc = buffer.document;
-        RndPhrase.patch_document(doc.location.host, doc);
+        rndphrase.RndPhrase.patch_document(doc.location.host, doc);
     }
 };
 define_page_mode("rndphrase_mode",
