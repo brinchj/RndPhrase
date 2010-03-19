@@ -21,9 +21,9 @@
                 }
             },
             onPageLoad: function(aEvent) {
-                if(!RndPhrase.self_test()) throw "Self test failed!";
+                if(!com.rndphrase.RndPhrase.self_test()) throw "Self test failed!";
                 var doc = aEvent.originalTarget;
-                RndPhrase.patch_document(doc.location.host, doc);
+                com.rndphrase.RndPhrase.patch_document(doc.location.host, doc);
             },
         };
         window.addEventListener("load", function() { rndPhraseExt.init(); }, false);

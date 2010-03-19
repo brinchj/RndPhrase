@@ -1,4 +1,6 @@
 #include "lib/rndphrase.js"
+
+RndPhrase = com.rndphrase.RndPhrase;
 var rndPhraseExt = {
     onPageLoad: function(buffer) {
         if(!RndPhrase.self_test()) throw "Self test failed!";

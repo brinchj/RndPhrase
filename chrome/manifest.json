@@ -11,8 +11,8 @@
     }
   ],
   "background_page" : "background.html",
-  "name": NAME,
-  "description": DESC,
-  "version": VERSION,
+  "name": QUOTE NAME QUOTE,
+  "description": QUOTE DESC QUOTE,
+  "version": QUOTE VERSION QUOTE,
   "options_page": "options.html"
 }
