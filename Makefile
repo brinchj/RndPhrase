@@ -1,4 +1,4 @@
-all: conkeror firefox
+all: conkeror firefox chrome
 
 BUILD_VERSION=0
 BUILD_PATCH=8
@@ -50,7 +50,7 @@ firefox_js.js: ${LIB} firefox/chrome/content/rndphrase/rndphrase.xul
 firefox: firefox_meta firefox_js.js
 	mkdir -p ${FIREFOX_BUILD}/_src && \
 	cp -r firefox/* ${FIREFOX_BUILD}/_src && \
-        mv firefox_meta ${FIREFOX_BUILD}/_src/install.rdf && \
+	mv firefox_meta ${FIREFOX_BUILD}/_src/install.rdf && \
 	mv firefox_js.js ${FIREFOX_BUILD}/_src/chrome/content/rndphrase/rndphrase.xul && \
 	cd ${FIREFOX_BUILD}/_src && \
 	./pack.sh && \
