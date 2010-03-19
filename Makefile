@@ -89,3 +89,10 @@ www: www_html.html
 	cp -r www/* ${WWW_BUILD} && \
 	mv www_html.html ${WWW_BUILD}/index.html && \
 	echo ">> Html version: ${WWW_BUILD}/index.html"
+
+benchmarks_js.js: benchmarks/cubehash.js
+	${CPP} benchmarks/cubehash.js -o benchmarks_cubehash_js.js
+
+benchmarks: benchmarks_js.js
+	mkdir -p build/benchmarks && \
+	mv benchmarks_cubehash_js.js build/benchmarks/cubehash.js
