@@ -3,9 +3,8 @@
 chrome.extension.sendRequest({name: "getPreferences"},
     function(response)
     {
-        RndPhrase.seed = response.prefSeed;
-        var doc = document;
-        RndPhrase.patch_document(doc.location.host, doc);
+        com.rndphrase.RndPhrase.seed = response.prefSeed;
+        com.rndphrase.RndPhrase.patch_document(doc.location.host, document);
     });
 
 
