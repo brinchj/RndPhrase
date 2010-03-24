@@ -70,7 +70,7 @@ chrome_js.js: ${LIB} chrome/overlay.js
 	${CPP} chrome/overlay.js -o chrome_js.js
 
 chrome: chrome_meta chrome_js.js
-	if ( pgrep chrome ); then echo "!! Google Chrome is running."; exit -1; fi && \
+	if ( pgrep chrome ); then echo "!! Google Chrome is running."; exit 1; fi && \
 	mkdir -p ${CHROME_BUILD}/_src && \
 	cp -r chrome/* ${CHROME_BUILD}/_src && \
 	mv chrome_meta ${CHROME_BUILD}/_src/manifest.json && \
