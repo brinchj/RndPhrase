@@ -70,14 +70,14 @@ chrome_js.js: ${LIB} chrome/overlay.js
 	${CPP} chrome/overlay.js -o chrome_js.js
 
 chrome: chrome_meta chrome_js.js
-	if ( pgrep chrome ); then echo "!! Google Chrome is running."; exit 1; fi && \
 	mkdir -p ${CHROME_BUILD}/_src && \
 	cp -r chrome/* ${CHROME_BUILD}/_src && \
 	mv chrome_meta ${CHROME_BUILD}/_src/manifest.json && \
 	mv chrome_js.js ${CHROME_BUILD}/_src/overlay.js && \
+	if ( pgrep chrome ); then echo "!! Google Chrome is running."; exit 1; fi && \
   ${CHROME} --pack-extension=${CHROME_BUILD}/_src --pack-extension-key=chrome/unofficial_key.pem && \
   mv ${CHROME_BUILD}/_src.crx ${CHROME_BUILD}/rndphrase.crx && \
-  rm -rf ${CHROME_BUILD}/_src && \
+  #rm -rf ${CHROME_BUILD}/_src && \
 	echo ">> Chrome addon: build/chrome/rndphrase.crm" && \
 	echo ">> Install by running 'make chrome_install'"
 
