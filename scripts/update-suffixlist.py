@@ -28,8 +28,7 @@ for i,line in enumerate(lines):
             lst[d] = node
         lst = node
     if EXCEPT:
-        lst['!'] = 1;
-json = json.serialize(rules).replace(' ','')
+        lst['!'] = {};
 
 # functions for checking domains
 def get_reg_domain(rules, doms):
@@ -42,7 +41,6 @@ def get_reg_domain(rules, doms):
     reg = get_reg_domain(node, doms[1:])
     if(reg != None):
         return '%s.%s' % (reg, doms[0])
-
 def get_host(domain):
     doms = list(reversed(domain.split('.')))
     return get_reg_domain(rules, doms)
@@ -55,8 +53,23 @@ tests = {'qwe.parliament.co.uk': 'parliament.co.uk',
 for (test,res) in tests.items():
     assert get_host(test) == res
 
+# convert the dictionary into a list
+def build_string(rules):
+    lst = []
+    for key in rules:
+        c = build_string(rules[key])
+        s = key
+        if len(c) != 0: s += '(%s)' % c
+        lst.append(s)
+    return ','.join(lst)
+def set_length(d):
+    for key in d:
+        set_length(d[key])
+    d['L'] = len(d)
 # output new list as javascript
+set_length(rules)
 print 'writing list..'
-file('../data/suffix-list.js','w').write('suffix_list=%s;' % json);
+json = json.serialize(rules).replace(' ','')
+file('data/suffix-list.js','w').write('var SUFFIX_LIST=%s;' % json);
 
 print 'done.'
