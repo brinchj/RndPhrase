@@ -2,7 +2,7 @@ all: conkeror firefox chrome
 
 BUILD_VERSION=0
 BUILD_PATCH=8
-BUILD_SUB=1
+BUILD_SUB=2
 
 VERSION = "$(BUILD_VERSION).$(BUILD_PATCH).$(BUILD_SUB)"
 
