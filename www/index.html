@@ -11,16 +11,23 @@
 
 function rndphrase_do() {
     var seed = document.getElementById('seed').value;
-    var passwd = document.getElementById('passwd').value;
+    rndphrase.RndPhrase.seed = seed;
+
     var host = document.getElementById('host').value;
+    var generator;
     try {
-        host = RndPhrase.strip_host(host);
-    } catch(e) { return; }
-    document.getElementById('rndphrase').value = RndPhrase.hash(seed,passwd,host);
+        generator = rndphrase.RndPhrase.generator_from_host(host);
+    } catch (e) {
+        document.getElementById('rndphrase').value = '';
+        return;
+    }
+
+    var passwd = document.getElementById('passwd').value;
+    document.getElementById('rndphrase').value = generator(passwd);
 }
 
 function rndphrase_selftest_do() {
-    if(!RndPhrase.self_test()) {
+    if(!rndphrase.RndPhrase.self_test()) {
         document.write("Self test failed!");
         throw "Self test failed!";
     }
@@ -33,9 +40,12 @@ function rndphrase_selftest_do() {
 
 <body onload="rndphrase_selftest_do()">
 <div style="width: 352px">
-  <div class="left">Seed:</div><div><input type="password" id="seed"></input></div>
-  <div class="left">Password:</div><div><input type="password" id="passwd"></input></div>
-  <div class="left">Domain:</div><div><input type="text" id="host" onkeyup="rndphrase_do()"></input></div>
+  <div class="left">Seed:</div><div><input type="password" id="seed"
+  onkeyup="rndphrase_do()"></input></div>
+  <div class="left">Password:</div><div><input type="password"
+  id="passwd" onkeyup="rndphrase_do()"></input></div>
+  <div class="left">Domain:</div><div><input type="text" id="host"
+  onkeyup="rndphrase_do()"></input></div>
   <div style="float: left"><hr style="width:352px;"/></div><br/>
   <div class="left">
     <input type="submit" style="width:150px" value="RndPhrase =>" onclick="rndphrase_do()"></input></div>
