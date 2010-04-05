@@ -24,7 +24,7 @@ After the addon has been packed it is ready to install. This can also be done au
 	Make firefox_install
 	Make chrome_install
 
-For conkeror, you will need to manually move the generated page mode into the correct folder, e.g.:
+For Conkeror, you will need to manually move the generated page mode into the correct folder, e.g.:
 	mv build/conkeror/page-modes/rndphrase.js  /usr/share/conkeror/modules/page-modes
 
 
