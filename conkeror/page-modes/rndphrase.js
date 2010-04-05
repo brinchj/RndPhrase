@@ -1,3 +1,4 @@
+in_module(null);
 #include "lib/rndphrase.js"
 
 var rndPhraseExt = {
@@ -17,3 +18,4 @@ define_page_mode("rndphrase_mode",
     }
 );
 // enable at all sites: auto_mode_list.push([/.*/, rndphrase_mode]);
+provide("rndphrase");
