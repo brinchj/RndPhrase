@@ -1,0 +1,6 @@
+<!ENTITY prefwindow.title "RndPhrase preferences">
+<!ENTITY pane1.title "RndPhrase preferences">
+<!ENTITY seed.label "The Seed">
+<!ENTITY seed.accesskey "S">
+<!ENTITY exception.label "The exception list">
+<!ENTITY exception.accesskey "E">
