@@ -3,11 +3,11 @@ The TODO list
 
 (This is a Markdown file)
 
-Feel free to take anything on the list if you want, but do coordinate so we don't do multiple work on the same thing. Feel free to add anything to the list as well.
+Feel free to take anything on the list if you want, but do coordinate
+so we don't do multiple work on the same thing. Feel free to add
+anything to the list as well.
 
 List of things that need to be done before v1.0:
-     - Enable configuration in Firefox.
-     - Enable configuration of modifier rules in Chrome.
      - Test functionality on frame-enabled sites.
      - Test functionality on dynamically generated forms.
      - Have someone else review the code.
@@ -16,3 +16,4 @@ List of things that need to be done before v1.0:
 
 Items for later:
       - Prepare addons for submission to official sites.
+      - Use macros in firefox/content/about.xul
