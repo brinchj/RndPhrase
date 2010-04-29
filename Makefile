@@ -44,16 +44,16 @@ conkeror: conkeror_js.js
 firefox_meta: ${LIB} firefox/install.rdf
 	${CPP} firefox/install.rdf | grep -v "^$$" > firefox_meta
 
-firefox_js.js: ${LIB} firefox/chrome/content/rndphrase/rndphrase.xul
-	${CPP} firefox/chrome/content/rndphrase/rndphrase.xul | grep -v "^$$" > firefox_js.js
+firefox_js.js: ${LIB} firefox/content/rndphrase.xul
+	${CPP} firefox/content/rndphrase.xul | grep -v "^$$" > firefox_js.js
 
 firefox: firefox_meta firefox_js.js
 	mkdir -p ${FIREFOX_BUILD}/_src && \
 	cp -r firefox/* ${FIREFOX_BUILD}/_src && \
 	mv firefox_meta ${FIREFOX_BUILD}/_src/install.rdf && \
-	mv firefox_js.js ${FIREFOX_BUILD}/_src/chrome/content/rndphrase/rndphrase.xul && \
+	mv firefox_js.js ${FIREFOX_BUILD}/_src/content/rndphrase.xul && \
 	cd ${FIREFOX_BUILD}/_src && \
-	./pack.sh && \
+	./build.sh && \
 	mv rndphrase.xpi ../ && \
 	cd .. && rm -rf _src && \
 	echo ">> Firefox addon: ${FIREFOX_BUILD}/rndphrase.xpi" && \
