@@ -6,7 +6,7 @@
   - 1.1 (the "License"); you may not use this file except in compliance with
   - the License. You may obtain a copy of the License at
   - http://www.mozilla.org/MPL/
-  - 
+  -
   - Software distributed under the License is distributed on an "AS IS" basis,
   - WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
   - for the specific language governing rights and limitations under the
@@ -32,7 +32,7 @@
   - and other provisions required by the GPL or the LGPL. If you do not delete
   - the provisions above, a recipient may use your version of this file under
   - the terms of any one of the MPL, the GPL or the LGPL.
-  - 
+  -
   - ***** END LICENSE BLOCK ***** -->
 
 <?xml-stylesheet href="chrome://browser/skin/" type="text/css"?>
@@ -44,32 +44,34 @@
 
 <script type="application/x-javascript">
 <![CDATA[
-         #include "lib/rndphrase.js"
+    #include "lib/rndphrase.js"
 ]]>
 </script>
 <script type="application/x-javascript">
 <![CDATA[
 
 var rndPhraseExt = {
-            init: function() {        
-				var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
-                                rndphrase.RndPhrase.seed = prefManager.getCharPref("extensions.rndphrase.seedpref");				
-				var appcontent = document.getElementById("appcontent");   // browser
-                if(appcontent) {
-                    appcontent.addEventListener("DOMContentLoaded", rndPhraseExt.onPageLoad, true);
-				}
-				
-            },
-            onPageLoad: function(aEvent) {
-                if(!rndphrase.RndPhrase.self_test()) throw "Self test failed!";
-                var doc = aEvent.originalTarget;
-                var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefBranch);
-                rndphrase.RndPhrase.seed = prefManager.getCharPref("extensions.rndphrase.seedpref");				               
-                rndphrase.RndPhrase.patch_document(doc.location.host, doc);
-            },
-        };
+    init: function() {
+        var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(
+            Components.interfaces.nsIPrefBranch);
+        rndphrase.RndPhrase.seed = prefManager.getCharPref("extensions.rndphrase.seedpref");
+		    var appcontent = document.getElementById("appcontent");   // browser
+        if(appcontent) {
+            appcontent.addEventListener("DOMContentLoaded", rndPhraseExt.onPageLoad, true);
+		    }
+    },
+    onPageLoad: function(aEvent) {
+        if(!rndphrase.RndPhrase.self_test()) throw "Self test failed!";
+        var doc = aEvent.originalTarget;
+        var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(
+            Components.interfaces.nsIPrefBranch);
+        rndphrase.RndPhrase.seed = prefManager.getCharPref("extensions.rndphrase.seedpref");
+        rndphrase.RndPhrase.patch_document(doc.location.host, doc);
+    },
+};
 
-        window.addEventListener("load", function() { rndPhraseExt.init(); }, false);
+window.addEventListener("load", function() { rndPhraseExt.init(); }, false);
+
 ]]>
 </script>
 
