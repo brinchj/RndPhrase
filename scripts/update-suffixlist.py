@@ -2,15 +2,36 @@
 import os, shutil, sys
 import urllib2 as urllib
 import anyjson as json
+from datetime import datetime
+import httplib
 
 
+DOM_LIST = "mxr.mozilla.org"
 URL_LIST = "http://mxr.mozilla.org/mozilla-central/source/netwerk/dns/src/effective_tld_names.dat?raw=1"
 SUFFIX_FILE = "data/suffix-list.js"
 
-# generate json
 sys.stdout.write('Updating suffix list.. ')
 sys.stdout.flush()
 
+def get_modified_url():
+    conn = httplib.HTTPConnection(DOM_LIST)
+    conn.request("HEAD", URL_LIST)
+    res = conn.getresponse()
+    s = dict(res.getheaders())['last-modified']
+    return datetime.strptime(s, '%a, %d %b %Y %H:%M:%S %Z')
+
+def get_modified_file():
+    try:
+        return datetime.fromtimestamp(os.stat(SUFFIX_FILE).st_mtime)
+    except: pass
+    return datetime.fromtimestamp(0)
+
+# Compare modification dates
+if get_modified_url() < get_modified_file():
+    print "Already up to date."
+    sys.exit(0)
+
+# generate json
 rules = {}
 lst = urllib.urlopen(URL_LIST).read()
 
@@ -68,14 +89,12 @@ def set_length(d):
     for key in d:
         set_length(d[key])
     d['L'] = len(d)
+
 # output new list as javascript
 set_length(rules)
 json = json.serialize(rules).replace(' ','')
 js = 'var SUFFIX_LIST=%s;' % json
-if not os.path.isfile(SUFFIX_FILE) or file(SUFFIX_FILE).read() != js:
-    file('%s.new' % SUFFIX_FILE,'w').write(js);
-    shutil.move('%s.new' % SUFFIX_FILE, SUFFIX_FILE)
-    print 'Updated!'
-else:
-    print 'Already up to date.'
+file('%s.new' % SUFFIX_FILE,'w').write(js);
+shutil.move('%s.new' % SUFFIX_FILE, SUFFIX_FILE)
+print 'Updated!'
 
