@@ -126,3 +126,7 @@ rm -rf $TMP_DIR
 echo "Done!"
 
 $AFTER_BUILD
+
+
+mkdir -p build
+mv rndphrase.xpi build/
