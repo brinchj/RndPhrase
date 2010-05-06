@@ -33,18 +33,18 @@ ${BUILD}/%: %
 
 
 # Firefox
-firefox_addon: $(shell find ${FIREFOX}) ${WORK}/${FIREFOX} ${BUILD}/${FIREFOX}
+firefox_addon: $(shell find ${FIREFOX} -type f) ${WORK}/${FIREFOX} ${BUILD}/${FIREFOX}
 
 firefox_install: firefox_plugin
 	${FIREFOX_BIN} ${BUILD}/${FIREFOX}/rndphrase.xpi
 
 
 # Conkeror
-conkeror_mode: $(shell find ${CONKEROR}) ${WORK}/${CONKEROR} ${BUILD}/${CONKEROR}
+conkeror_mode: $(shell find ${CONKEROR} -type f) ${WORK}/${CONKEROR} ${BUILD}/${CONKEROR}
 
 
 # Chrome
-chrome_addon: $(shell find ${CHROME}) ${WORK}/${CHROME} ${BUILD}/${CHROME}
+chrome_addon: $(shell find ${CHROME} -type f) ${WORK}/${CHROME} ${BUILD}/${CHROME}
 chrome_install: chrome_addon
 	${CHROME_BIN} ${BUILD}/${CHROME}/rndphrase.crx
 
