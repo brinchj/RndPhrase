@@ -1,10 +1,11 @@
 #!/usr/bin/env python
-import os
+import os, shutil
 import urllib2 as urllib
 import anyjson as json
 
 
 URL_LIST = "http://mxr.mozilla.org/mozilla-central/source/netwerk/dns/src/effective_tld_names.dat?raw=1"
+SUFFIX_FILE = "data/suffix-list.js"
 
 # generate json
 print 'downloading suffix list..'
@@ -68,8 +69,12 @@ def set_length(d):
     d['L'] = len(d)
 # output new list as javascript
 set_length(rules)
-print 'writing list..'
 json = json.serialize(rules).replace(' ','')
-file('data/suffix-list.js','w').write('var SUFFIX_LIST=%s;' % json);
+js = 'var SUFFIX_LIST=%s;' % json
+if not os.path.isfile(SUFFIX_FILE) or file(SUFFIX_FILE).read() != js:
+    file('%s.new' % SUFFIX_FILE,'w').write(js);
+    shutil.move('%s.new' % SUFFIX_FILE, SUFFIX_FILE)
+    print '* Suffix list was updated!'
+else:
+    print '* Already newest version.'
 
-print 'done.'
