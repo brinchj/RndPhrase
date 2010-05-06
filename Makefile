@@ -9,7 +9,7 @@ export CPP
 LIB=Makefile lib/cubehash.js lib/rndphrase.js
 ROOT=$(shell pwd)
 
-all: firefox
+all: firefox_addon chrome_addon conkeror_mode
 
 clean:
 	rm -rf work
