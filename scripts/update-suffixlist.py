@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import os, shutil
+import os, shutil, sys
 import urllib2 as urllib
 import anyjson as json
 
@@ -8,10 +8,12 @@ URL_LIST = "http://mxr.mozilla.org/mozilla-central/source/netwerk/dns/src/effect
 SUFFIX_FILE = "data/suffix-list.js"
 
 # generate json
-print 'downloading suffix list..'
+sys.stdout.write('Updating suffix list.. ')
+sys.stdout.flush()
+
 rules = {}
 lst = urllib.urlopen(URL_LIST).read()
-print 'processing list..'
+
 lines = lst.split('\n')
 for i,line in enumerate(lines):
     if line[:2] == '//' or len(line) == 0:
@@ -47,7 +49,6 @@ def get_host(domain):
     return get_reg_domain(rules, doms)
 
 # test the list
-print 'testing list..'
 tests = {'qwe.parliament.co.uk': 'parliament.co.uk',
          'foo.bar.version2.dk': 'version2.dk',
          'ecs.soton.ac.uk': 'soton.ac.uk'}
@@ -74,7 +75,7 @@ js = 'var SUFFIX_LIST=%s;' % json
 if not os.path.isfile(SUFFIX_FILE) or file(SUFFIX_FILE).read() != js:
     file('%s.new' % SUFFIX_FILE,'w').write(js);
     shutil.move('%s.new' % SUFFIX_FILE, SUFFIX_FILE)
-    print '* Suffix list was updated!'
+    print 'Updated!'
 else:
-    print '* Already newest version.'
+    print 'Already up to date.'
 
