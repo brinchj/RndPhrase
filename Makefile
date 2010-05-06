@@ -47,3 +47,6 @@ conkeror_mode: $(shell find ${CONKEROR}) ${WORK}/${CONKEROR} ${BUILD}/${CONKEROR
 chrome_addon: $(shell find ${CHROME}) ${WORK}/${CHROME} ${BUILD}/${CHROME}
 chrome_install: chrome_addon
 	${CHROME_BIN} ${BUILD}/${CHROME}/rndphrase.crx
+
+# WWW
+www_html: $(shell find ${WWW} -type f) ${WORK}/${WWW} ${BUILD}/${WWW}
