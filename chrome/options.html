@@ -1,41 +1,35 @@
 <html>
-<head><title>RndPhrase Options</title></head>
-<script type="text/javascript">
+  <head>
+    <title>RndPhrase Options</title>
+  </head>
+  <script type="text/javascript">
+    // Saves options to localStorage.
+    function save_options() {
+      var I = document.getElementById("rndphrase_seed");
+      localStorage.setItem("RndPhraseExtPrefSeed", I.value);
 
-// Saves options to localStorage.
-function save_options() {
-  var I = document.getElementById("rndphrase_seed");
-  localStorage.setItem("RndPhraseExtPrefSeed", I.value);
-
-  // Update status to let user know options were saved.
-  var status = document.getElementById("status");
-  status.innerHTML = "Options Saved.";
-  setTimeout(function() {
-    status.innerHTML = "";
-  }, 1000);
-}
-
-// Restores select box state to saved value from localStorage.
-function restore_options() {
-  var seed = localStorage.getItem("RndPhraseExtPrefSeed");
-  if (!seed) {
-    return;
-  }
-  var I = document.getElementById("rndphrase_seed");
-  I.value = seed;
-}
-
-</script>
-
-<body onload="restore_options()">
-
-Choose your personal seed:
-<input type="text" id="rndphrase_seed" />
-
-<br>
-<button onclick="save_options()">Save</button>
-
-<div id="status"></div>
-
-</body>
+      // Update status to let user know options were saved.
+      var status = document.getElementById("status");
+      status.innerHTML = "Options Saved.";
+      setTimeout(function() {
+      status.innerHTML = "";
+      }, 1000);
+    }
+    // Restores select box state to saved value from localStorage.
+    function restore_options() {
+      var seed = localStorage.getItem("RndPhraseExtPrefSeed");
+      if (!seed) {
+        return;
+      }
+      var I = document.getElementById("rndphrase_seed");
+      I.value = seed;
+    }
+  </script>
+  <body onload="restore_options()">
+    Choose your personal seed:
+    <input type="password" id="rndphrase_seed" />
+    <br />
+    <button onclick="save_options()">Save</button>
+    <div id="status"></div>
+  </body>
 </html>
