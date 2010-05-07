@@ -3,17 +3,27 @@
     <title>RndPhrase Options</title>
   </head>
   <script type="text/javascript">
+    #include "lib/cubehash.js"
+  </script>
+  <script type="text/javascript">
+    // Set status
+    function set_status(msg) {
+      var status = document.getElementById("status");
+      status.innerHTML = msg;
+      setTimeout(function(){ status.innerHTML = ""; }, 2000);
+    }
     // Saves options to localStorage.
     function save_options() {
       var I = document.getElementById("rndphrase_seed");
-      localStorage.setItem("RndPhraseExtPrefSeed", I.value);
-
+      if(I.value == localStorage.getItem("RndPhraseExtPrefSeed")) {
+        set_status("Seed Not Changed.");
+        return;
+      }
+      var hash = rndphrase.CubeHash.hash(I.value);
+      localStorage.setItem("RndPhraseExtPrefSeed", hash);
+      I.value = hash;
       // Update status to let user know options were saved.
-      var status = document.getElementById("status");
-      status.innerHTML = "Options Saved.";
-      setTimeout(function() {
-      status.innerHTML = "";
-      }, 1000);
+      set_status("Seed Stored.");
     }
     // Restores select box state to saved value from localStorage.
     function restore_options() {
@@ -26,10 +36,21 @@
     }
   </script>
   <body onload="restore_options()">
-    Choose your personal seed:
-    <input type="password" id="rndphrase_seed" />
-    <br />
-    <button onclick="save_options()">Save</button>
+    <div style="width: 512px">
+      RndPhrase uses a personal seed along with your password to
+      improve security. It's something <i>unique</i> to you.<br/><br/>
+      For Example:
+      <ul>
+        <li>An e-mail address.</li>
+        <li>Your social security number.</li>
+        <li>Your birthday.</li>
+      </ul>
+      <i>The seed is encrypted before being stored.</i>
+    </div><br/>
+    Choose your personal seed:<br/>
+    <input type="text" style="width: 512px" id="rndphrase_seed" />
+    <br/><br/>
     <div id="status"></div>
+    <button onclick="save_options()">Save</button>
   </body>
 </html>
