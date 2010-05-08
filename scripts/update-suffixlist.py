@@ -9,9 +9,24 @@ import httplib
 DOM_LIST = "mxr.mozilla.org"
 URL_LIST = "http://mxr.mozilla.org/mozilla-central/source/netwerk/dns/src/effective_tld_names.dat?raw=1"
 SUFFIX_FILE = "data/suffix-list.js"
+SUFFIX_TIME = "%s.timestamp" % SUFFIX_FILE
+
+MIN_INTERVAL = 30 * 60
+
 
 sys.stdout.write('Updating suffix list.. ')
 sys.stdout.flush()
+
+def last_check():
+    try:
+        return datetime.fromtimestamp(os.stat(SUFFIX_TIME).st_mtime)
+    except: pass
+    return datetime.fromtimestamp(0)
+
+def check_again():
+    delta = datetime.now() - last_check()
+    secs  = delta.days * 24 * 3600 + delta.seconds
+    return secs > MIN_INTERVAL
 
 def get_modified_url():
     conn = httplib.HTTPConnection(DOM_LIST)
@@ -27,9 +42,19 @@ def get_modified_file():
     return datetime.fromtimestamp(0)
 
 # Compare modification dates
+if not check_again():
+    print "Too early to check again."
+    sys.exit()
+
+# update timestamp
+if os.path.isfile(SUFFIX_TIME):
+    os.utime(SUFFIX_TIME, None)
+else:
+    file(SUFFIX_TIME,'w').close()
+
 if get_modified_url() < get_modified_file():
     print "Already up to date."
-    sys.exit(0)
+    sys.exit()
 
 # generate json
 rules = {}
@@ -96,5 +121,6 @@ json = json.serialize(rules).replace(' ','')
 js = 'var SUFFIX_LIST=%s;' % json
 file('%s.new' % SUFFIX_FILE,'w').write(js);
 shutil.move('%s.new' % SUFFIX_FILE, SUFFIX_FILE)
+
 print 'Updated!'
 
