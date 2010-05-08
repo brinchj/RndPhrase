@@ -42,11 +42,7 @@
   xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 
-<script type="application/x-javascript">
-<![CDATA[
-    #include "lib/rndphrase.js"
-]]>
-</script>
+<script type="application/x-javascript" src="chrome://rndphrase/content/rndphrase.js"/>
 <script type="application/x-javascript">
 <![CDATA[
 
@@ -64,8 +60,8 @@ var rndPhraseExt = {
         if(!rndphrase.RndPhrase.self_test()) throw "Self test failed!";
         var doc = aEvent.originalTarget;
         var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(
-            Components.interfaces.nsIPrefBranch);
-        rndphrase.RndPhrase.seed = prefManager.getCharPref("extensions.rndphrase.seedpref");
+          Components.interfaces.nsIPrefBranch);
+        rndphrase.RndPhrase.seed_hash = prefManager.getCharPref("extensions.rndphrase.seedpref");
         rndphrase.RndPhrase.patch_document(doc.location.host, doc);
     },
 };
