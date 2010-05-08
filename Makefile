@@ -21,11 +21,12 @@ data/suffix-list.js:
 	@./scripts/update-suffixlist.py
 
 ${WORK}: $(wildcard lib/*)
-	rm -rf ${WORK} && mkdir -p ${WORK}
+	@rm -rf ${WORK} && mkdir -p ${WORK}
 
 # Build a work dir
-${WORK}/%: % data/suffix-list.js
-	@mkdir -p $@ && touch $@ && \
+${WORK}/%: % data/suffix-list.js ${WORK}
+	@ rm -rf ${BUILD}/$< && \
+	mkdir -p $@ && touch $@ && \
 	cp -r $< work/ && \
 	for fname in $(shell find $< -type f -regex ".*\.\(js\|xul\|rdf\|dtd\|html\|json\)"); do \
 		${CPP} "$$fname" -o "work/$$fname" 3>/dev/null 2>/dev/null; \
@@ -40,7 +41,7 @@ ${BUILD}/%: %
 # Firefox
 firefox_addon: $(shell find ${FIREFOX} -type f) ${WORK}/${FIREFOX} ${BUILD}/${FIREFOX}
 	@echo ">> Firefox addon build."
-firefox_install: firefox_plugin
+firefox_install: firefox_addon
 	${FIREFOX_BIN} ${BUILD}/${FIREFOX}/rndphrase.xpi
 
 # Conkeror
