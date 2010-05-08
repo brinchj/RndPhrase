@@ -12,7 +12,6 @@ List of things that need to be done before v1.0:
      - Test functionality on dynamically generated forms.
      - Have someone else review the code.
      - Set up a non-public key for Chrome to allow signing of addon.
-     - Better build system.
 
 Items for later:
       - Prepare addons for submission to official sites.
