@@ -15,4 +15,3 @@ List of things that need to be done before v1.0:
 
 Items for later:
       - Prepare addons for submission to official sites.
-      - Use macros in firefox/content/about.xul
