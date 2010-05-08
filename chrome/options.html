@@ -6,6 +6,8 @@
     #include "lib/cubehash.js"
   </script>
   <script type="text/javascript">
+    // For masking seed hash
+    var MASK = "********";
     // Set status
     function set_status(msg) {
       var status = document.getElementById("status");
@@ -15,15 +17,15 @@
     // Saves options to localStorage.
     function save_options() {
       var I = document.getElementById("rndphrase_seed");
-      if(I.value == localStorage.getItem("RndPhraseExtPrefSeed")) {
-        set_status("Seed Not Changed.");
+      if(I.value == MASK) {
+        set_status("Cowardly refused to store '"+MASK+"' as seed.");
         return;
       }
       var hash = rndphrase.CubeHash.hash(I.value);
       localStorage.setItem("RndPhraseExtPrefSeed", hash);
-      I.value = hash;
+      I.value = MASK;
       // Update status to let user know options were saved.
-      set_status("Seed Stored.");
+      set_status("Seed updated.");
     }
     // Restores select box state to saved value from localStorage.
     function restore_options() {
@@ -32,7 +34,7 @@
         return;
       }
       var I = document.getElementById("rndphrase_seed");
-      I.value = seed;
+      I.value = MASK;
     }
   </script>
   <body onload="restore_options()">
@@ -48,7 +50,8 @@
       <i>The seed is encrypted before being stored.</i>
     </div><br/>
     Choose your personal seed:<br/>
-    <input type="text" style="width: 512px" id="rndphrase_seed" />
+    <input type="text" onfocus="if(this.value='********')this.value='';"
+           style="width: 512px" id="rndphrase_seed" />
     <br/><br/>
     <div id="status"></div>
     <button onclick="save_options()">Save</button>
