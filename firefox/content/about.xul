@@ -42,11 +42,11 @@
 <!-- Original template by Jed Brown -->
 <groupbox align="center" orient="horizontal">
 <vbox>
-  <text value="RndPhrase" style="font-weight: bold; font-size: x-large;"/>
-  <text value="&version; 0.8.4"/>
+  <text value=QUOTE RNDPHRASE QUOTE style="font-weight: bold; font-size: x-large;"/>
+  <text value=QUOTE version VERSION QUOTE/>
   <separator class="thin"/>
   <text value="&createdBy;" style="font-weight: bold;"/>
-  <text value="Johan Brinch"/>
+  <text value=QUOTE CREATOR QUOTE/>
   <separator class="thin"/>
 </vbox>
 </groupbox>
