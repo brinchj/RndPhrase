@@ -97,6 +97,7 @@ def get_host(domain):
 # test the list
 tests = {'qwe.parliament.co.uk': 'parliament.co.uk',
          'foo.bar.version2.dk': 'version2.dk',
+         'www.facebook.com':    'facebook.com',
          'ecs.soton.ac.uk': 'soton.ac.uk'}
 for (test,res) in tests.items():
     assert get_host(test) == res
