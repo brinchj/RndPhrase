@@ -54,7 +54,7 @@ xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">-->
     <description style="height:200px;width:600px">
       <html:p id="desc">
         RndPhrase uses a personal seed along with your password to
-        improve security. It's something <html:i>unique</html:i> to you.<html:br/><html:br/>
+        improve security.<html:br/>It's something <html:i>unique</html:i> to you.<html:br/><html:br/>
         For Example:
         <html:ul>
         <html:li>An e-mail address.</html:li>
@@ -68,18 +68,39 @@ xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">-->
     <textbox id="stringseed" preference="seed"
              onsynctopreference="return convert.to_pref();"
              onsyncfrompreference="return convert.from_pref();"/>
+    <description style="height:25px">
+      <html:p id="status"></html:p>
+    </description>
   </prefpane>
 
   <script>
     <![CDATA[
              var convert = {
-             plaintext: undefined,
-             to_pref: function() {
-               convert.plaintext = document.getElementById("stringseed").value;
-               return rndphrase.CubeHash.hash(convert.plaintext);
+               plaintext: undefined,
+               s_count: 0,
+               set_status: function(msg) {
+                 convert.s_count += 1;
+                 var status = document.getElementById("status");
+                 status.innerHTML = msg;
+                 setTimeout(function(){
+                   if(convert.s_count == 1) status.innerHTML="";
+                   convert.s_count -= 1;      }, 2000);
                },
-             from_pref: function() {
-               return convert.plaintext;
+               to_pref: function() {
+                 if (convert.plaintext == undefined) {
+                   convert.plaintext = "";
+                   convert.set_status("Seed cleared.");
+                 } else {
+                   convert.plaintext = document.getElementById("stringseed").value;
+                   convert.set_status("Seed updated.");
+                 }
+                 return rndphrase.CubeHash.hash(convert.plaintext);
+               },
+               from_pref: function() {
+                 if (convert.plaintext != undefined) {
+                   return convert.plaintext;
+                 }
+                 return "********";
                }
              };
     ]]>
