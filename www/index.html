@@ -33,26 +33,68 @@ function rndphrase_selftest_do() {
     }
 }
 
+function flippass() {
+  var rndp = document.getElementById("rndphrase");
+  var mask = document.getElementById("mask");
+  var msg  = document.getElementById("flippass");
+  if(mask.style.display == "none") {
+    rndp.style.width   = "30px";
+    mask.style.display = "";
+    msg.innerHTML = "show password";
+  } else {
+    rndp.style.width = "200px";
+    mask.style.display = "none";
+    msg.innerHTML = "hide password";
+  }
+  return false;
+}
+
 /* ]]> */
   </script>
   <link rel="stylesheet" type="text/css" href="stylesheet.css"></link>
 </head>
 
 <body onload="rndphrase_selftest_do()">
-<div style="width: 352px">
-  <div class="left">Seed:</div><div><input type="password" id="seed"
-  onkeyup="rndphrase_do()"></input></div>
-  <div class="left">Password:</div><div><input type="password"
-  id="passwd" onkeyup="rndphrase_do()"></input></div>
-  <div class="left">Domain:</div><div><input type="text" id="host"
-  onkeyup="rndphrase_do()"></input></div>
-  <div style="float: left"><hr style="width:352px;"/></div><br/>
-  <div class="left">
-    <input type="submit" style="width:150px" value="RndPhrase =>" onclick="rndphrase_do()"></input></div>
-  <div><input type="text" style="width:30px" value=""
-              id="rndphrase"></input><input type="text" style="width:168px;"></input>
-</div>
-</div>
+  <center>
+    <div style="width: 352px; line-height:100px">
+      RndPhrase v. VERSION
+    </div>
+    <div style="width: 352px">
+      <hr/>
+      <div class="left">Seed:</div>
+      <div>
+        <input type="password" id="seed"
+               onkeyup="rndphrase_do()"></input>
+      </div>
+      <div class="left">Password:</div>
+      <div>
+        <input type="password"
+               id="passwd" onkeyup="rndphrase_do()"></input>
+      </div>
+      <div class="left">Domain:</div>
+      <div>
+        <input type="text" id="host"
+               onkeyup="rndphrase_do()"></input>
+      </div>
+      <div style="float: left"><hr style="width:352px;"/></div><br/>
+      <div class="left">
+        <input type="submit" style="width:150px" value="RndPhrase =>"
+               onclick="rndphrase_do()"></input>
+      </div>
+      <div><input type="text" style="width:30px;font-family:monospace" value=""
+                  id="rndphrase"></input><input id="mask" type="text"
+                                                style="width:168px;"></input>
+      </div>
+      <hr/>
+      <div >
+        <a id="flippass" onclick="return flippass();" href="">show password</a>
+      </div>
+    </div>
+    <div style="width:352px; line-height: 100px">
+      <a href="http://github.com/brinchj/RndPhrase">
+        http://github.com/brinchj/RndPhrase</a>
+    </div>
+  </center>
 </body>
 
 </html>
