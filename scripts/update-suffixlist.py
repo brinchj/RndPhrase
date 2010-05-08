@@ -1,10 +1,15 @@
 #!/usr/bin/env python
 import os, shutil, sys
 import urllib2 as urllib
-import anyjson as json
 from datetime import datetime
 import httplib
 
+try:
+    import json
+except:
+    print "Could not import module 'json'."
+    print "Please install this Python module (probably called python-json)."
+    sys.exit(1)
 
 DOM_LIST = "mxr.mozilla.org"
 URL_LIST = "http://mxr.mozilla.org/mozilla-central/source/netwerk/dns/src/effective_tld_names.dat?raw=1"
