@@ -18,5 +18,12 @@
         <em:maxVersion>3.6.*</em:maxVersion>
       </Description>
     </em:targetApplication>
+    <em:targetApplication>
+      <Description>
+        <em:id>{a79fe89b-6662-4ff4-8e88-09950ad4dfde}</em:id> <!-- Conkeror -->
+        <em:minVersion>0.1</em:minVersion>
+        <em:maxVersion>9.9</em:maxVersion>
+      </Description>
+    </em:targetApplication>
   </Description>
 </RDF>
