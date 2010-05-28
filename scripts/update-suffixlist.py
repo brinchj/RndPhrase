@@ -123,7 +123,7 @@ def set_length(d):
 
 # output new list as javascript
 set_length(rules)
-json = json.serialize(rules).replace(' ','')
+json = json.dumps(rules).replace(' ','')
 js = 'var SUFFIX_LIST=%s;' % json
 file('%s.new' % SUFFIX_FILE,'w').write(js);
 shutil.move('%s.new' % SUFFIX_FILE, SUFFIX_FILE)
