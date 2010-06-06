@@ -37,6 +37,9 @@ def get_modified_url():
     conn = httplib.HTTPConnection(DOM_LIST)
     conn.request("HEAD", URL_LIST)
     res = conn.getresponse()
+    if not res.status == 200:
+        print 'Could not grab list (%i).' % res.status
+        sys.exit(1)
     s = dict(res.getheaders())['last-modified']
     return datetime.strptime(s, '%a, %d %b %Y %H:%M:%S %Z')
 
