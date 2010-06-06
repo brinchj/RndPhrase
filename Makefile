@@ -15,10 +15,10 @@ ROOT=$(shell pwd)
 all: firefox_addon chrome_addon conkeror_mode www_html
 
 clean:
-	rm -rf work data/suffix-list.js
+	rm -rf work
 
 data/suffix-list.js:
-	@./scripts/update-suffixlist.py
+	@./scripts/update-suffixlist.py || true
 
 ${WORK}: $(wildcard lib/*)
 	@rm -rf ${WORK} && mkdir -p ${WORK}
