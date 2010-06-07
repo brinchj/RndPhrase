@@ -38,6 +38,8 @@ ROOT_DIRS=         # ...and these directories       (space separated list)
 BEFORE_BUILD=      # run this before building       (bash command)
 AFTER_BUILD=       # ...and this after the build    (bash command)
 
+BASE=`pwd`
+
 if [ -z $1 ]; then
   . ./config_build.sh
 else
@@ -92,6 +94,7 @@ for ROOT_FILE in $ROOT_FILES install.rdf chrome.manifest; do
   fi
 done
 
+cp ${BASE}/../../images/icon.png $TMP_DIR
 cd $TMP_DIR
 
 if [ -f "chrome.manifest" ]; then
