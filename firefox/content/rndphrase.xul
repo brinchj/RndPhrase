@@ -57,7 +57,9 @@ var rndPhraseExt = {
 		    }
     },
     onPageLoad: function(aEvent) {
-        if(!rndphrase.RndPhrase.self_test()) throw "Self test failed!";
+        if(!rndphrase.RndPhrase.self_test()) {
+          throw "Self test failed!";
+        }
         var doc = aEvent.originalTarget;
         var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(
           Components.interfaces.nsIPrefBranch);
