@@ -1,7 +1,8 @@
 include Makefile.config
 
 CPP=gcc -c -C -P -E -xc -I. \
-        -D'QUOTE="' -DNAME=${NAME} -DDESC=${DESC} \
+        -D"Q0(w)=\# w" -D"Q(w)=Q0(w)" \
+	    	-DNAME=${NAME} -DDESC=${DESC} \
         -DCREATOR=${CREATOR} \
         -DHOMEPAGE=${HOMEPAGE} -DVERSION=${VERSION}
 export CPP
