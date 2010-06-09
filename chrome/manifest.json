@@ -5,7 +5,7 @@
         "overlay.js"
       ],
       "matches": [
-        "http://*/*", "https://*/*", "file:///*/*"
+        "http://*/*", "https://*/*"
       ],
       "permissions": []
     }
