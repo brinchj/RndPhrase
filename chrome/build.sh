@@ -1,7 +1,7 @@
 #!/bin/sh
 if (pgrep chrome); then
-    echo "!! Google Chrome is currently running.";
-    echo "!! Cannot continue.";
+    echo "!! Google Chrome is currently running." >&2;
+    echo "!! Cannot continue." >&2;
     exit 1;
 fi
 
