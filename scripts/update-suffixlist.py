@@ -12,7 +12,7 @@ except:
     sys.exit(1)
 
 DOM_LIST = "mxr.mozilla.org"
-URL_LIST = "http://mxr.mozilla.org/mozilla-central/source/netwerk/dns/src/effective_tld_names.dat?raw=1"
+URL_LIST = "http://mxr.mozilla.org/mozilla-central/source/netwerk/dns/effective_tld_names.dat?raw=1"
 SUFFIX_FILE = "data/suffix-list.js"
 SUFFIX_TIME = "%s.timestamp" % SUFFIX_FILE
 
@@ -127,7 +127,7 @@ def set_length(d):
 # output new list as javascript
 set_length(rules)
 json = json.dumps(rules).replace(' ','')
-js = 'var SUFFIX_LIST=%s;' % json
+js = 'rndphrase.SUFFIX_LIST=%s;' % json
 file('%s.new' % SUFFIX_FILE,'w').write(js);
 shutil.move('%s.new' % SUFFIX_FILE, SUFFIX_FILE)
 
