@@ -60,10 +60,33 @@ var rndPhraseExt = {
         if(!rndphrase.RndPhrase.self_test()) {
           throw "Self test failed!";
         }
+        var path = 'chrome://rndphrase/seed';
+        var loginManager = Components.classes["@mozilla.org/login-manager;1"]
+          .getService(Components.interfaces.nsILoginManager);
+        var logins = loginManager.findLogins({}, path, path, null);
+
+        var hash = "";
+        if(logins.length == 1) {
+          hash = logins[0].password;
+        } else {
+          // compatibility code
+          // move seed from preferences to password manager
+          var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(
+            Components.interfaces.nsIPrefBranch);
+          hash = prefManager.getCharPref("extensions.rndphrase.seedpref");
+          if(seed) {
+            // create entry in login manager
+            var loginInfo = Components.classes["@mozilla.org/login-manager/loginInfo;1"]
+              .createInstance(Components.interfaces.nsILoginInfo);
+            loginInfo.init(path, path, null, 'seed', hash, "", "");
+            loginManager.addLogin(loginInfo);
+            // delete old preference entry
+            prefManager.setCharPref("extensions.rndphrase.seedpref", "");
+          }
+        }
+
         var doc = aEvent.originalTarget;
-        var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(
-          Components.interfaces.nsIPrefBranch);
-        rndphrase.RndPhrase.seed_hash = prefManager.getCharPref("extensions.rndphrase.seedpref");
+        rndphrase.RndPhrase.seed_hash = hash;
         rndphrase.RndPhrase.patch_document(doc.location.host, doc);
     },
 };
