@@ -94,14 +94,14 @@ xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">-->
                    convert.plaintext = document.getElementById("stringseed").value;
                    convert.set_status("Seed updated.");
                  }
-                 var domain = 'chrome://rndphrase/seed';
+                 var path = 'chrome://rndphrase/seed';
                  var loginManager = Components.classes["@mozilla.org/login-manager;1"]
                    .getService(Components.interfaces.nsILoginManager);
                  var loginInfo = Components.classes["@mozilla.org/login-manager/loginInfo;1"]
                    .createInstance(Components.interfaces.nsILoginInfo);
                  var hash = rndphrase.CubeHash.hash(convert.plaintext);
-                 loginInfo.init(domain, domain, null, 'seed', hash, "", "");
-                 var logins = loginManager.findLogins({}, domain, domain, null);
+                 loginInfo.init(path, path, null, 'seed', hash, "", "");
+                 var logins = loginManager.findLogins({}, path, path, null);
                  switch(logins.length) {
                    case 0:
                      loginManager.addLogin(loginInfo);
