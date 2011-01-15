@@ -14,10 +14,10 @@ ROOT=$(shell pwd)
 	conkeror_mode js_ext \
 	chrome_addon chrome_install www_html
 
-all: firefox_addon chrome_addon conkeror_mode www_html
+all: firefox_addon chrome_addon conkeror_mode www_html js_ext
 
 clean:
-	rm -rf work
+	rm -rf work build
 
 data/suffix-list.js:
 	@./scripts/update-suffixlist.py || true
