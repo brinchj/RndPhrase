@@ -1,15 +1,12 @@
 #include "lib/rndphrase.js"
 
-var rndPhraseExt = {
-    onPageLoad: function(doc) {
-        if(!rndphrase.RndPhrase.self_test()) throw "Self test failed!";
-        rndphrase.RndPhrase.patch_document(doc.location.host, doc);
+window.addEventListener('load', function() {
+    if(!rndphrase.RndPhrase.self_test()) {
+        throw "Self test failed!";
+    } else {
+        rndphrase.RndPhrase.patch_document(document.location.host, document);
     }
-};
-
-window.addEventListener('load', function(){
-                            rndPhraseExt.onPageLoad(document);}, false
-                       );
+}, false);
 
 // configure the seed here or by sometime later depending on platform
 rndphrase.RndPhrase.seed = "";
