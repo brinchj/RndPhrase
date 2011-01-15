@@ -51,10 +51,10 @@ var rndPhraseExt = {
         var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(
             Components.interfaces.nsIPrefBranch);
         rndphrase.RndPhrase.seed = prefManager.getCharPref("extensions.rndphrase.seedpref");
-		    var appcontent = document.getElementById("appcontent");   // browser
+		var appcontent = document.getElementById("appcontent");   // browser
         if(appcontent) {
             appcontent.addEventListener("DOMContentLoaded", rndPhraseExt.onPageLoad, true);
-		    }
+		}
     },
     onPageLoad: function(aEvent) {
         if(!rndphrase.RndPhrase.self_test()) {
@@ -91,7 +91,7 @@ var rndPhraseExt = {
     },
 };
 
-window.addEventListener("load", function() { rndPhraseExt.init(); }, false);
+rndPhraseExt.init();
 
 ]]>
 </script>
