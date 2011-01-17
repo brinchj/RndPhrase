@@ -10,7 +10,6 @@ import httplib
 DOM_LIST = "mxr.mozilla.org"
 URL_LIST = "http://mxr.mozilla.org/mozilla-central/source/netwerk/dns/effective_tld_names.dat?raw=1"
 SUFFIX_FILE = "data/suffix-list.js"
-SUFFIX_TIME = "%s.timestamp" % SUFFIX_FILE
 
 MIN_INTERVAL = 30 * 60
 
@@ -20,11 +19,12 @@ sys.stdout.flush()
 
 
 def last_check():
+    ts = 0
     try:
-        return datetime.fromtimestamp(os.stat(SUFFIX_TIME).st_mtime)
+        ts = os.stat(SUFFIX_FILE).st_mtime
     except:
         pass
-    return datetime.fromtimestamp(0)
+    return datetime.fromtimestamp(ts)
 
 
 def check_again():
@@ -44,25 +44,12 @@ def get_modified_url():
     return datetime.strptime(s, '%a, %d %b %Y %H:%M:%S %Z')
 
 
-def get_modified_file():
-    try:
-        return datetime.fromtimestamp(os.stat(SUFFIX_FILE).st_mtime)
-    except:
-        pass
-    return datetime.fromtimestamp(0)
-
 # Compare modification dates
 if not check_again():
     print "Too early to check again."
     sys.exit()
 
-# update timestamp
-if os.path.isfile(SUFFIX_TIME):
-    os.utime(SUFFIX_TIME, None)
-else:
-    file(SUFFIX_TIME, 'w').close()
-
-if get_modified_url() < get_modified_file():
+if get_modified_url() < last_check():
     print "Already up to date."
     sys.exit()
 
