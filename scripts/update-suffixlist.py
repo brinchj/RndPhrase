@@ -90,6 +90,6 @@ for test, exp in tests.items():
 
 # write new javascript file
 file(SUFFIX_FILE, 'w').write(
-    'rndphrase.DomainManager.SUFFIX_LIST = "%s"' % js)
+    'rndphrase.DomainManager.SUFFIX_LIST = "%s";' % js)
 
 print 'Updated!'
