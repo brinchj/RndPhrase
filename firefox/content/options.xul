@@ -77,17 +77,11 @@ xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">-->
     <![CDATA[
              var convert = {
                plaintext: undefined,
-               s_count: 0,
                set_status: function(msg) {
-                 convert.s_count += 1;
-                 var status = document.getElementById("status");
-                 status.innerHTML = msg;
-                 setTimeout(function(){
-                   if(convert.s_count == 1) status.innerHTML="";
-                   convert.s_count -= 1;      }, 2000);
+                 document.getElementById("status").innerHTML = msg;
                },
                to_pref: function() {
-                 if (convert.plaintext == undefined) {
+                 if (convert.plaintext === undefined) {
                    convert.plaintext = "";
                    convert.set_status("Seed cleared.");
                  } else {
