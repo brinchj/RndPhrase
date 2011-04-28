@@ -30,7 +30,7 @@ After the addon has been packed it is ready to install. This can also be done au
 
 For Conkeror, you will need to manually move the generated page mode into the correct folder, e.g.:
 
-    mv build/conkeror/page-modes/rndphrase.js  /usr/share/conkeror/modules/page-modes
+        mv build/conkeror/page-modes/rndphrase.js  /usr/share/conkeror/modules/page-modes
 
 
 
