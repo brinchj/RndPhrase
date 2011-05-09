@@ -7,12 +7,15 @@
       "matches": [
         "http://*/*", "https://*/*"
       ],
-      "permissions": []
+      "permissions": [],
+      "all_frames": true
     }
   ],
+
   "background_page" : "background.html",
   "name": Q(NAME),
   "description": Q(DESC),
   "version": Q(VERSION),
   "options_page": "options.html"
+
 }
