@@ -1,9 +1,4 @@
 #!/bin/sh
-if (pgrep chrome); then
-    echo "!! Google Chrome is currently running." >&2;
-    echo "!! Cannot continue." >&2;
-    exit 1;
-fi
 
 # CRX addon
 mkdir -p src build
