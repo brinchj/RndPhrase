@@ -87,7 +87,7 @@ var rndPhraseExt = {
 
         var doc = aEvent.originalTarget;
         rndphrase.RndPhrase.seed_hash = hash;
-        rndphrase.RndPhrase.patch_document(doc.location.host, doc);
+        rndphrase.RndPhrase.patch_document(doc.location.hostname, doc);
     },
 };
 
