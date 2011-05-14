@@ -10,7 +10,7 @@ chrome.extension.sendRequest({name: "getPreferences"},
         if(seed != null && seed.length > 0) {
             rndphrase.RndPhrase.seed_hash = seed;
         }
-        rndphrase.RndPhrase.patch_document(document.location.host, document);
+        rndphrase.RndPhrase.patch_document(document.location.hostname, document);
     });
 
 
