@@ -13,9 +13,9 @@ Installation
 ----------
 First, you need to prepare the addon you would like to install. Simply run one of the following:
 
-        make firefox
-        make chrome
-        make conkeror
+        make firefox_addon
+        make chrome_addon
+        make conkeror_mode
 
 Or, to make them all:
 
