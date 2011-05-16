@@ -6,7 +6,7 @@ rndphrase.RndPhrase.seed = "";
 if (!rndphrase.RndPhrase.self_test()) {
     throw "Self test failed!";
 } else {
-    rndphrase.RndPhrase.patch_document(document.location.host, document);
+    rndphrase.RndPhrase.patch_document(document.location.hostname, document);
 }
 
 

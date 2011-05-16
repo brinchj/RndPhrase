@@ -5,7 +5,7 @@ var rndPhraseExt = {
     onPageLoad: function(buffer) {
         if(!rndphrase.RndPhrase.self_test()) throw "Self test failed!";
         var doc = buffer.document;
-        rndphrase.RndPhrase.patch_document(doc.location.host, doc);
+        rndphrase.RndPhrase.patch_document(doc.location.hostname, doc);
     }
 };
 define_page_mode("rndphrase_mode",
