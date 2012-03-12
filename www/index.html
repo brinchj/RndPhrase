@@ -13,7 +13,7 @@ function rndphrase_do() {
     var seed = document.getElementById('seed').value;
     rndphrase.RndPhrase.seed = seed;
 
-    var host = document.getElementById('host').value;
+    var host = document.getElementById('host').value.toLowerCase();
     var generator;
     try {
         generator = rndphrase.RndPhrase.generator_from_host(host);
