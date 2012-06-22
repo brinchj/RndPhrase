@@ -2,7 +2,7 @@
 
 # CRX addon
 mkdir -p src build
-cp *.html *.js *.json src
+cp ../../images/*.png *.html *.js *.json src
 ${CHROME_BIN} --pack-extension=src --pack-extension-key=unofficial_key.pem
 cp src.crx build/rndphrase.crx
 

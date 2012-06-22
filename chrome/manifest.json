@@ -16,6 +16,10 @@
   "name": Q(NAME),
   "description": Q(DESC),
   "version": Q(VERSION),
-  "options_page": "options.html"
+  "options_page": "options.html",
+  "icons": {
+       "64": "icon.png",
+      "128": "icon.png"
+  }
 
 }
