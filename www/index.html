@@ -11,12 +11,14 @@
 
 function rndphrase_do() {
     var seed = document.getElementById('seed').value;
-    rndphrase.RndPhrase.seed = seed;
-
     var host = document.getElementById('host').value.toLowerCase();
     var generator;
+
+    var r = new rndphrase.RndPhrase(host);
+    r.set_seed(seed);
+
     try {
-        generator = rndphrase.RndPhrase.generator_from_host(host);
+        generator = r.generator_from_host(host);
     } catch (e) {
         document.getElementById('rndphrase').value = '';
         return;
@@ -27,7 +29,7 @@ function rndphrase_do() {
 }
 
 function rndphrase_selftest_do() {
-    if(!rndphrase.RndPhrase.self_test()) {
+    if(!rndphrase.self_test()) {
         document.write("Self test failed!");
         throw "Self test failed!";
     }

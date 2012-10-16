@@ -1,12 +1,29 @@
 #include "lib/rndphrase.js"
 
-// configure the seed here or by sometime later depending on platform
-rndphrase.RndPhrase.seed = "";
+// Call this with either seed or seed_hash to initialise RndPhrase
+function initRndPhrase(seed, seed_hash, mods) {
+    if (!rndphrase.self_test()) {
+        throw "Self test failed!";
+    }
 
-if (!rndphrase.RndPhrase.self_test()) {
-    throw "Self test failed!";
-} else {
-    rndphrase.RndPhrase.patch_document(document.location.hostname, document);
+    var doc = document;
+    var host = doc.location.hostname;
+
+    var r = new rndphrase.RndPhrase(host);
+
+    if(seed_hash) {
+        r.set_seed_hash(seed_hash);
+    } else if (seed) {
+        r.set_seed(seed);
+    } else {
+        throw "RndPhrase: Need either seed or seed_hash!";
+    }
+
+    if(mods) {
+        r.mods = mods;
+    }
+
+    r.patch_document(doc);
 }
 
 

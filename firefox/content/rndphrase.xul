@@ -48,37 +48,36 @@
 
 var rndPhraseExt = {
     init: function() {
-        var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(
-            Components.interfaces.nsIPrefBranch);
-        rndphrase.RndPhrase.seed = prefManager.getCharPref("extensions.rndphrase.seedpref");
-		var appcontent = document.getElementById("appcontent");   // browser
+        var appcontent = document.getElementById("appcontent");   // browser
         if(appcontent) {
-            appcontent.addEventListener("DOMContentLoaded", rndPhraseExt.onPageLoad, true);
-		}
+          appcontent.addEventListener("DOMContentLoaded", rndPhraseExt.onPageLoad, true);
+        }
     },
-    onPageLoad: function(aEvent) {
-        if(!rndphrase.RndPhrase.self_test()) {
+    onPageLoad: function(aEvent)
+    {
+        if(!rndphrase.self_test()) {
           throw "Self test failed!";
         }
+
         var path = 'chrome://rndphrase/seed';
         var loginManager = Components.classes["@mozilla.org/login-manager;1"]
           .getService(Components.interfaces.nsILoginManager);
         var logins = loginManager.findLogins({}, path, path, null);
 
-        var hash = "";
+        var seed_hash = "";
         if(logins.length == 1) {
-          hash = logins[0].password;
+          seed_hash = logins[0].password;
         } else {
           // compatibility code
           // move seed from preferences to password manager
           var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(
             Components.interfaces.nsIPrefBranch);
-          hash = prefManager.getCharPref("extensions.rndphrase.seedpref");
-          if(hash) {
+          seed_hash = prefManager.getCharPref("extensions.rndphrase.seedpref");
+          if(seed_hash) {
             // create entry in login manager
             var loginInfo = Components.classes["@mozilla.org/login-manager/loginInfo;1"]
               .createInstance(Components.interfaces.nsILoginInfo);
-            loginInfo.init(path, path, null, 'seed', hash, "", "");
+            loginInfo.init(path, path, null, 'seed', seed_hash, "", "");
             loginManager.addLogin(loginInfo);
             // delete old preference entry
             prefManager.setCharPref("extensions.rndphrase.seedpref", "");
@@ -86,8 +85,13 @@ var rndPhraseExt = {
         }
 
         var doc = aEvent.originalTarget;
-        rndphrase.RndPhrase.seed_hash = hash;
-        rndphrase.RndPhrase.patch_document(doc.location.hostname, doc);
+        var host = doc.location.hostname;
+
+        if (host) {
+          var r = new rndphrase.RndPhrase(host);
+          r.set_seed_hash(seed_hash);
+          r.patch_document(doc);
+        }
     },
 };
 

@@ -3,9 +3,13 @@ in_module(null);
 
 var rndPhraseExt = {
     onPageLoad: function(buffer) {
-        if(!rndphrase.RndPhrase.self_test()) throw "Self test failed!";
+        if(!rndphrase.self_test()) throw "Self test failed!";
         var doc = buffer.document;
-        rndphrase.RndPhrase.patch_document(doc.location.hostname, doc);
+        var r = new rndphrase.RndPhrase(doc.location.hostname);
+        if(typeof(rndphrase_seed) !== "undefined") {
+            r.set_seed(rndphrase_seed);
+        }
+        r.patch_document(doc);
     }
 };
 define_page_mode("rndphrase_mode",
