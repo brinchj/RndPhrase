@@ -1,25 +1,28 @@
 {
-  "content_scripts": [
-    {
-      "js": [
-        "overlay.js"
-      ],
-      "matches": [
-        "http://*/*", "https://*/*"
-      ],
-      "permissions": [],
-      "all_frames": true
+    "manifest_version": 2,
+    "content_scripts": [
+        {
+            "js": [
+                "overlay.js"
+            ],
+            "matches": [
+                "http://*/*", "https://*/*"
+            ],
+            "permissions": [],
+            "all_frames": true
+        }
+    ],
+
+    "background": {
+        "scripts": ["background.js"]
+    },
+
+    "name": Q(NAME),
+    "description": Q(DESC),
+    "version": Q(VERSION),
+    "options_page": "options.html",
+    "icons": {
+        "64": "icon.png",
+        "128": "icon.png"
     }
-  ],
-
-  "background_page" : "background.html",
-  "name": Q(NAME),
-  "description": Q(DESC),
-  "version": Q(VERSION),
-  "options_page": "options.html",
-  "icons": {
-       "64": "icon.png",
-      "128": "icon.png"
-  }
-
 }

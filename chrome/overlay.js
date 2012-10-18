@@ -1,7 +1,7 @@
 #include "lib/rndphrase.js"
 
 chrome.extension.sendRequest(
-    {name: "getPreferences"},
+    { name: "getPreferences" },
     function(response)
     {
         if(!rndphrase.self_test()) {
@@ -14,10 +14,13 @@ chrome.extension.sendRequest(
         var seed = response.prefSeed;
         if(seed != null && seed.length > 0) {
             r.set_seed_hash(seed);
+        } else {
+            r.set_seed("");
         }
 
         r.patch_document(doc);
-    });
+    }
+);
 
 
 
