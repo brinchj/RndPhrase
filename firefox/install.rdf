@@ -10,7 +10,6 @@
     <em:description>A plug-in to create a uniqe passphrase for each website</em:description>
     <em:aboutURL>chrome://rndphrase/content/about.xul</em:aboutURL>
     <em:optionsURL>chrome://rndphrase/content/options.xul</em:optionsURL>
-    <em:locale>en-US</em:locale>
     <em:targetApplication>
       <Description>
         <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id> <!-- firefox -->
@@ -25,5 +24,6 @@
         <em:maxVersion>9.9</em:maxVersion>
       </Description>
     </em:targetApplication>
+    <em:unpack>true</em:unpack> <!-- TODO: do not use JAR !-->
   </Description>
 </RDF>
