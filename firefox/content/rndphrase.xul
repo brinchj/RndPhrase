@@ -47,15 +47,15 @@
 <![CDATA[
 
 var rndPhraseExt = {
-    init: function() {
+    init: function () {
         var appcontent = document.getElementById("appcontent");   // browser
-        if(appcontent) {
+        if (appcontent) {
           appcontent.addEventListener("DOMContentLoaded", rndPhraseExt.onPageLoad, true);
         }
     },
-    onPageLoad: function(aEvent)
+    onPageLoad: function (aEvent)
     {
-        if(!rndphrase.self_test()) {
+        if (!rndphrase.self_test()) {
           throw "Self test failed!";
         }
 
@@ -64,35 +64,40 @@ var rndPhraseExt = {
           .getService(Components.interfaces.nsILoginManager);
         var logins = loginManager.findLogins({}, path, path, null);
 
-        var seed_hash = "";
-        if(logins.length == 1) {
-          seed_hash = logins[0].password;
-        } else {
-          // compatibility code
-          // move seed from preferences to password manager
-          var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(
-            Components.interfaces.nsIPrefBranch);
-          seed_hash = prefManager.getCharPref("extensions.rndphrase.seedpref");
-          if(seed_hash) {
-            // create entry in login manager
-            var loginInfo = Components.classes["@mozilla.org/login-manager/loginInfo;1"]
-              .createInstance(Components.interfaces.nsILoginInfo);
-            loginInfo.init(path, path, null, 'seed', seed_hash, "", "");
-            loginManager.addLogin(loginInfo);
-            // delete old preference entry
-            prefManager.setCharPref("extensions.rndphrase.seedpref", "");
-          }
-        }
-
         var doc = aEvent.originalTarget;
         var host = doc.location.hostname;
 
-        if (host) {
-          var r = new rndphrase.RndPhrase(host);
-          r.set_seed_hash(seed_hash);
-          r.patch_document(doc);
+        if (!host) {
+            return;
         }
-    },
+
+        var r = new rndphrase.RndPhrase(host);
+
+        if (logins.length === 1) {
+            r.set_seed_hash(logins[0].password);
+        } else {
+            // compatibility code
+            // move seed from preferences to password manager
+            var prefManager = Components.classes["@mozilla.org/preferences-service;1"].getService(
+              Components.interfaces.nsIPrefBranch);
+            var seed_hash = prefManager.getCharPref("extensions.rndphrase.seedpref");
+            if (seed_hash) {
+                // create entry in login manager
+                var loginInfo = Components.classes["@mozilla.org/login-manager/loginInfo;1"]
+                  .createInstance(Components.interfaces.nsILoginInfo);
+                loginInfo.init(path, path, null, 'seed', seed_hash, "", "");
+                loginManager.addLogin(loginInfo);
+                // delete old preference entry
+                prefManager.setCharPref("extensions.rndphrase.seedpref", "");
+                r.set_seed_hash(seed_hash);
+            } else {
+                // use empty seed when none is set
+                r.set_seed("");
+            }
+        }
+
+        r.patch_document(doc);
+    }
 };
 
 rndPhraseExt.init();
