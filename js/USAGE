@@ -1,0 +1,11 @@
+var rndphrase = require("rndphrase");↓
+
+var host = "test.com";
+var host_cased = host.toLowerCase();
+var seed = "secret";
+var password = "iownahorse";
+
+var r = new rndphrase.RndPhrase(host_cased);↓
+r.set_seed(seed);↓
+generator = r.generator_from_host(host_cased);↓
+return generator(password);↓

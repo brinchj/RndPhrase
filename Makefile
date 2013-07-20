@@ -51,7 +51,7 @@ conkeror_mode: $(shell find ${CONKEROR} -type f) ${WORK}/${CONKEROR} ${BUILD}/${
 	@echo ">> Conkeror page-mode build."
 
 # Generic JavaScript extension
-js_ext: $(shell find ${JS_EXT} -type f) ${WORK}/${JS_EXT} ${BUILD}/${JS_EXT}
+commonjs: $(shell find ${JS_EXT} -type f) ${WORK}/${JS_EXT} ${BUILD}/${JS_EXT}
 	@echo ">> Generic JavaScript Extension build."
 
 # Chrome
