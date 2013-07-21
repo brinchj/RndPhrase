@@ -11,10 +11,10 @@ LIB=Makefile lib/cubehash.js lib/rndphrase.js
 ROOT=$(shell pwd)
 
 .PHONY: data/suffix-list.js clean all firefox_addon firefox_install \
-	conkeror_mode js_ext \
+	conkeror_mode js_module \
 	chrome_addon chrome_install www_html
 
-all: firefox_addon chrome_addon conkeror_mode www_html js_ext
+all: firefox_addon chrome_addon conkeror_mode www_html js_module
 
 clean:
 	rm -rf work build
@@ -50,8 +50,8 @@ firefox_install: firefox_addon
 conkeror_mode: $(shell find ${CONKEROR} -type f) ${WORK}/${CONKEROR} ${BUILD}/${CONKEROR}
 	@echo ">> Conkeror page-mode build."
 
-# Generic JavaScript extension
-commonjs: $(shell find ${JS_EXT} -type f) ${WORK}/${JS_EXT} ${BUILD}/${JS_EXT}
+# Generic JavaScript module
+js_module: $(shell find ${MODULE} -type f) ${WORK}/${MODULE} ${BUILD}/${MODULE}
 	@echo ">> Generic JavaScript Extension build."
 
 # Chrome
