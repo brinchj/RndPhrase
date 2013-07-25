@@ -30,7 +30,7 @@ ${WORK}/%: % data/suffix-list.js ${WORK}
 	@ rm -rf ${BUILD}/$< && \
 	mkdir -p $@ && touch $@ && \
 	cp -r $< work/ && \
-	for fname in $(shell find $< -type f -regex ".*\.\(js\|xul\|rdf\|dtd\|html\|json\)"); do \
+	for fname in $(shell find $< -type f | grep -e ".*\.\(js\|xul\|rdf\|dtd\|html\|json\)"); do \
 		${CPP} "$$fname" -o "work/$$fname" 3>/dev/null 2>/dev/null; \
 	done
 
