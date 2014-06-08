@@ -2,13 +2,11 @@
 import os
 import re
 import sys
-import urllib2 as urllib
 from datetime import datetime
-import httplib
+import httplib2
 
 
-DOM_LIST = "mxr.mozilla.org"
-URL_LIST = "http://mxr.mozilla.org/mozilla-central/source/netwerk/dns/effective_tld_names.dat?raw=1"
+URL_LIST = "https://publicsuffix.org/list/effective_tld_names.dat"
 SUFFIX_FILE = "data/suffix-list.js"
 
 MIN_INTERVAL = 30 * 60
@@ -19,11 +17,10 @@ sys.stdout.flush()
 
 
 def last_check():
-    ts = 0
     try:
         ts = os.stat(SUFFIX_FILE).st_mtime
     except:
-        pass
+        ts = 0
     return datetime.fromtimestamp(ts)
 
 
@@ -34,50 +31,54 @@ def check_again():
 
 
 def get_modified_url():
-    conn = httplib.HTTPConnection(DOM_LIST)
-    conn.request("HEAD", URL_LIST)
-    res = conn.getresponse()
-    if not res.status == 200:
-        print 'Could not grab list (%i).' % res.status
+    http = httplib2.Http()
+    (hdrs, data) = http.request(URL_LIST, method='HEAD')
+    if not hdrs.status == 200:
+        print 'Could not grab list (%i).' % hdrs.status
         sys.exit(1)
-    s = dict(res.getheaders())['last-modified']
-    return datetime.strptime(s, '%a, %d %b %Y %H:%M:%S %Z')
+    last_modified = hdrs['last-modified']
+    return datetime.strptime(last_modified, '%a, %d %b %Y %H:%M:%S %Z')
 
 
-# Compare modification dates
-if not check_again():
-    print "Too early to check again."
-    sys.exit()
+def main():
+    # Compare modification dates
+    if not check_again():
+        print "Too early to check again."
+        sys.exit()
 
-if get_modified_url() < last_check():
-    print "Already up to date."
-    sys.exit()
+    if get_modified_url() < last_check():
+        print "Already up to date."
+        sys.exit()
 
-# generate javascript
-rules = {}
-lines = urllib.urlopen(URL_LIST).read().split('\n')
+    # generate javascript
+    rules = {}
+    lines = httplib2.Http().request(URL_LIST)[1].split('\n')
 
-lines = filter(lambda l: '.' in l and re.search(r'^([^!/])', l),
-               map(lambda l: l.strip().replace('*', r'[^\.]+'), lines))
-js = '|'.join(lines)
+    lines = filter(lambda l: '.' in l and re.search(r'^([^!/])', l),
+                   map(lambda l: l.strip().replace('*', r'[^\.]+'), lines))
+    js = '|'.join(lines)
 
-# check list against test cases
-tests = {
-    'qwe.parliament.co.uk': 'parliament.co.uk',
-    'foo.bar.version2.dk': 'version2.dk',
-    'www.facebook.com': 'facebook.com',
-    'ecs.soton.ac.uk': 'soton.ac.uk',
-    'www.oakham.rutland.sch.uk': 'oakham.rutland.sch.uk',
-    }
+    # check list against test cases
+    tests = {
+        'qwe.parliament.co.uk': 'parliament.co.uk',
+        'foo.bar.version2.dk': 'version2.dk',
+        'www.facebook.com': 'facebook.com',
+        'ecs.soton.ac.uk': 'soton.ac.uk',
+        'www.oakham.rutland.sch.uk': 'oakham.rutland.sch.uk',
+        }
 
-RE_DOMAIN = r"([^\.]+\.(?:" + js.replace(".", r"\.") + "|[a-z]+))$"
-for test, exp in tests.items():
-    match = re.search(RE_DOMAIN, test)
-    assert match.group(1) == exp
+    RE_DOMAIN = r"([^\.]+\.(?:" + js.replace(".", r"\.") + "|[a-z]+))$"
+    for test, exp in tests.items():
+        match = re.search(RE_DOMAIN, test)
+        assert match.group(1) == exp
 
-# write new javascript file
-suffix_list_js = 'rndphrase.DomainManager.SUFFIX_LIST = "%s";' % \
-    js.replace('\\', '\\\\')
-file(SUFFIX_FILE, 'w').write(suffix_list_js)
+    # write new javascript file
+    suffix_list_js = 'rndphrase.DomainManager.SUFFIX_LIST = "%s";' % \
+      js.replace('\\', '\\\\')
+    file(SUFFIX_FILE, 'w').write(suffix_list_js)
 
-print 'Updated!'
+    print 'Updated!'
+
+
+if __name__ == '__main__':
+    main()
