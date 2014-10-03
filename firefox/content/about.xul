@@ -42,11 +42,11 @@
 <!-- Original template by Jed Brown -->
 <groupbox align="center" orient="horizontal">
 <vbox>
-  <text value=Q(RNDPHRASE) style="font-weight: bold; font-size: x-large;"/>
-  <text value=Q(version VERSION)/>
+  <text value=QQQ(RNDPHRASE) style="font-weight: bold; font-size: x-large;"/>
+  <text value=QQQ(version VERSION)/>
   <separator class="thin"/>
   <text value="&createdBy;" style="font-weight: bold;"/>
-  <text value=Q(CREATOR)/>
+  <text value=QQQ(CREATOR)/>
   <separator class="thin"/>
 </vbox>
 </groupbox>

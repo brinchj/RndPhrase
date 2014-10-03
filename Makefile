@@ -1,7 +1,7 @@
 include Makefile.config
 
 CPP=gcc -c -C -P -E -xc -I. \
-        -D"Q0(w)=\# w" -D"Q(w)=Q0(w)" \
+        -D"QQQ0(w)=\# w" -D"QQQ(w)=QQQ0(w)" \
 	    	-DNAME=${NAME} -DDESC=${DESC} \
         -DCREATOR=${CREATOR} \
         -DHOMEPAGE=${HOMEPAGE} -DVERSION=${VERSION}

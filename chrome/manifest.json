@@ -17,9 +17,9 @@
         "scripts": ["background.js"]
     },
 
-    "name": Q(NAME),
-    "description": Q(DESC),
-    "version": Q(VERSION),
+    "name": QQQ(NAME),
+    "description": QQQ(DESC),
+    "version": QQQ(VERSION),
     "options_page": "options.html",
     "icons": {
         "64": "icon.png",
