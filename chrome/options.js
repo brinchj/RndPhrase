@@ -6,8 +6,8 @@ var MASK = "********";
 // Set status
 function set_status(msg) {
     var status = document.getElementById("status");
-    status.innerHTML = msg;
-    setTimeout(function(){ status.innerHTML = ""; }, 2000);
+    status.textContent = msg;
+    setTimeout(function(){ status.textContent = ""; }, 2000);
 }
 
 // Saves options to storage.
