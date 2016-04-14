@@ -4,21 +4,31 @@
   </head>
   <script type="text/javascript" src="options.js"></script>
   <body>
-    <div style="width: 512px">
-      RndPhrase uses a personal seed along with your password to
-      improve security. It's something <i>unique</i> to you.<br/><br/>
-      For Example:
-      <ul>
-        <li>An e-mail address.</li>
-        <li>Your social security number.</li>
-        <li>Your birthday.</li>
-      </ul>
-      <i>The seed is encrypted before being stored.</i>
-    </div><br/>
-    Choose your personal seed:<br/>
-    <input type="text" style="width: 512px" id="rndphrase_seed" />
-    <br/><br/>
-    <div id="status"></div>
-    <button id="save">Save</button>
+    <form id="options_form">
+      <div style="width: 512px">
+        RndPhrase uses a personal seed along with your password to
+        improve security. It's something <i>unique</i> to you.<br/><br/>
+        For Example:
+        <ul>
+          <li>An e-mail address.</li>
+          <li>Your social security number.</li>
+          <li>Your birthday.</li>
+        </ul>
+        <i>The seed is encrypted before being stored.</i>
+      </div>
+
+      <br/>
+
+      <label>
+        Choose your personal seed:<br/>
+        <input type="text" style="width: 512px" id="rndphrase_seed" />
+      </label>
+
+      <br/><br/>
+
+      <div id="status"></div>
+
+      <button type="submit">Save</button>
+    </form>
   </body>
 </html>

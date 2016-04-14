@@ -50,8 +50,8 @@ function init() {
     document.getElementById('rndphrase_seed').addEventListener(
         'focus', reset_seed, false);
 
-    document.getElementById('save').addEventListener(
-        'click', save_options, false);
+    document.getElementById('options_form').addEventListener(
+        'submit', save_options, false);
 }
 
 window.onload = init;
