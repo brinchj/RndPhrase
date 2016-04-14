@@ -10,7 +10,7 @@ function set_status(msg) {
     setTimeout(function(){ status.innerHTML = ""; }, 2000);
 }
 
-// Saves options to localStorage.
+// Saves options to storage.
 function save_options() {
     var inp = document.getElementById("rndphrase_seed");
     if(inp.value == MASK) {
@@ -18,20 +18,43 @@ function save_options() {
         return;
     }
     var hash = rndphrase.CubeHash.hash(inp.value);
-    localStorage.setItem("RndPhraseExtPrefSeed", hash);
-    inp.value = MASK;
-    // Update status to let user know options were saved.
-    set_status("Seed updated.");
+
+    return chrome.storage.sync.set({ seed: seed }, function () {
+      inp.value = MASK;
+      // Update status to let user know options were saved.
+      set_status("Seed updated.");
+    });
 }
 
-// Restores select box state to saved value from localStorage.
-function restore_options() {
-    var seed = localStorage.getItem("RndPhraseExtPrefSeed");
-    if (!seed) {
-        return;
+// Restores select box state to saved value from storage.
+function restore_options(callback) {
+    var seed;
+
+    var cb = function () {
+      if (!seed) {
+          return callback();
+      }
+      var inp = document.getElementById("rndphrase_seed");
+      inp.value = MASK;
+
+      callback();
     }
-    var inp = document.getElementById("rndphrase_seed");
-    inp.value = MASK;
+
+    // Legacy localstorage migration code
+    if (localStorage.getItem("RndPhraseExtPrefSeed") !== null) {
+      seed = localStorage.getItem("RndPhraseExtPrefSeed");
+
+      // Remove all traces of RndPhrase from ocalStorage
+      localstorage.removeItem("RndPhraseExtPrefSeed");
+
+      return chrome.storage.sync.set({ seed: seed }, cb);
+    }
+
+    chrome.storage.sync.get('seed', function (data) {
+      seed = data.seed;
+
+      return cb();
+    });
 }
 
 // Handler to reset seed input-field if masked
@@ -45,13 +68,12 @@ function reset_seed(e) {
 // Set event handlers when DOM has loaded
 function init() {
     // reset
-    restore_options();
+    restore_options(function () {
+      document.getElementById('rndphrase_seed').addEventListener('focus', reset_seed, false);
 
-    document.getElementById('rndphrase_seed').addEventListener(
-        'focus', reset_seed, false);
+      document.getElementById('options_form').addEventListener('submit', save_options, false);
+    });
 
-    document.getElementById('options_form').addEventListener(
-        'submit', save_options, false);
 }
 
 window.onload = init;
