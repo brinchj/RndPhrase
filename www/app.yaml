@@ -1,7 +1,8 @@
 application: rndphrase
 version: 1
-runtime: python
+runtime: python27
 api_version: 1
+threadsafe: true
 
 handlers:
 - url: /
@@ -10,6 +11,6 @@ handlers:
 
 - url: /(.*)
   static_files: \1
-  upload: .*\.(html|css|js)
+  upload: .*\.(html|css|js|txt)
 
 
