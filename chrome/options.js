@@ -19,7 +19,7 @@ function save_options() {
     }
     var hash = rndphrase.CubeHash.hash(inp.value);
 
-    return chrome.storage.sync.set({ seed: seed }, function () {
+    return chrome.storage.sync.set({ seed: hash }, function () {
       inp.value = MASK;
       // Update status to let user know options were saved.
       set_status("Seed updated.");
@@ -40,12 +40,12 @@ function restore_options(callback) {
       callback();
     }
 
-    // Legacy localstorage migration code
+    // Legacy localStorage migration code
     if (localStorage.getItem("RndPhraseExtPrefSeed") !== null) {
       seed = localStorage.getItem("RndPhraseExtPrefSeed");
 
-      // Remove all traces of RndPhrase from ocalStorage
-      localstorage.removeItem("RndPhraseExtPrefSeed");
+      // Remove all traces of RndPhrase from localStorage
+      localStorage.removeItem("RndPhraseExtPrefSeed");
 
       return chrome.storage.sync.set({ seed: seed }, cb);
     }

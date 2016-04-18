@@ -21,7 +21,7 @@
     "description": QQQ(DESC),
     "version": QQQ(VERSION),
     "options_page": "options.html",
-    "permissios": [
+    "permissions": [
       "storage"
     ],
     "icons": {
