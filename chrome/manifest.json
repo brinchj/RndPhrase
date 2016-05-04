@@ -21,6 +21,9 @@
     "description": QQQ(DESC),
     "version": QQQ(VERSION),
     "options_page": "options.html",
+    "permissions": [
+      "storage"
+    ],
     "icons": {
         "64": "icon.png",
         "128": "icon.png"
