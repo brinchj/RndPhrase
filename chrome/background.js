@@ -5,8 +5,13 @@ chrome.extension.onRequest.addListener(
         {
         case "getPreferences":
             chrome.storage.sync.get('seed', function (data) {
-              sendResponse({ prefSeed : data.seed });
-            });
+              if (data && data.seed) {
+                sendResponse({ prefSeed : data.seed });
+              } else {
+	        // Fallback to localStorage (will migrate on options save).
+                sendResponse({ prefSeed : localStorage["RndPhraseExtPrefSeed"] });
+	      }
+	    });
             break;
         }
     }
